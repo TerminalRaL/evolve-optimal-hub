@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EVOLVE OPTIMAL — Human Performance, Culinary Science & Elements of Evolution</title>
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans, Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              950: '#06080B',
+              900: '#0B0F15',
+              850: '#101620',
+              800: '#161E2B',
+              700: '#1F2A3C',
+            },
+            champagne: {
+              300: '#F3E5C8',
+              400: '#E2C792',
+              500: '#C9A86A',
+              600: '#A68549',
+            },
+            bio: {
+              emerald: '#10B981',
+              cyan: '#06B6D4',
+              violet: '#8B5CF6',
+              amber: '#F59E0B',
+              rose: '#F43F5E',
+            }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'pop-in': 'popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            popIn: {
+              '0%': { opacity: '0', transform: 'scale(0.95) translateY(4px)' },
+              '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom subtle architectural grid & scrollbar */
+    body {
+      background-color: #06080B;
+      color: #F1F5F9;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(16, 185, 129, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(226, 199, 146, 0.06) 0%, transparent 40%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism panels */
+    .glass-panel {
+      background: rgba(16, 22, 32, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-nav {
+      background: rgba(11, 15, 21, 0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.75);
+    }
+
+    /* Periodic Table Matrix Layout (18 columns on large screens, adaptive below) */
+    .periodic-grid {
+      display: grid;
+      grid-template-columns: repeat(18, minmax(54px, 1fr));
+      gap: 6px;
+    }
+
+    @media (max-width: 1200px) {
+      .periodic-grid {
+        grid-template-columns: repeat(9, minmax(68px, 1fr));
+      }
+      .periodic-tile {
+        grid-column: auto !important;
+        grid-row: auto !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .periodic-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+    }
+
+    /* Periodic Element Tile Hover & Pop-out Window */
+    .periodic-tile {
+      position: relative;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .periodic-tile:hover,
+    .periodic-tile.is-hovered {
+      z-index: 40;
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    /* Floating Expansion Window on Desktop Hover */
+    .element-hover-card {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(8px) scale(0.96);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @media (min-width: 1024px) {
+      .periodic-tile:hover .element-hover-card,
+      .periodic-tile:focus-within .element-hover-card {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #06080B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1F2A3C;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #C9A86A;
+    }
+
+    /* Studio Mode highlight outline */
+    .studio-active .editable-zone {
+      outline: 1px dashed rgba(226, 199, 146, 0.45);
+      outline-offset: 4px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-champagne-500/30 selection:text-champagne-300">
+
+  <!-- ==================== PERSISTENT FLOATING TOP NAVIGATION ==================== -->
+  <header class="sticky top-0 z-50 px-3 sm:px-6 pt-3 sm:pt-4">
+    <nav class="glass-nav max-w-7xl mx-auto rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+      
+      <!-- Brand Identity -->
+      <a href="#home" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 group shrink-0">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-champagne-400/20 via-bio-emerald/10 to-obsidian-800 border border-champagne-400/40 flex items-center justify-center shadow-inner group-hover:border-champagne-400 transition-colors">
+          <svg class="w-5 h-5 text-champagne-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2"></polygon>
+            <circle cx="12" cy="12" r="3"></circle>
+            <line x1="12" y1="2" x2="12" y2="9"></line>
+            <line x1="12" y1="15" x2="12" y2="22"></line>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-display font-bold tracking-wider text-sm sm:text-base text-white">EVOLVE <span class="text-champagne-400">OPTIMAL</span></span>
+          <span class="font-mono text-[10px] tracking-widest text-slate-400 uppercase hidden sm:block">Human Architecture Lab</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Tabs -->
+      <div class="hidden md:flex items-center bg-obsidian-950/70 p-1.5 rounded-xl border border-white/5" id="desktop-nav-tabs">
+        <button data-tab="home" onclick="navigateTo('home')" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2">
+          <i data-lucide="compass" class="w-4 h-4"></i>
+          <span>Home</span>
+        </button>
+        <button data-tab="journal" onclick="navigateTo('journal')" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>Journal</span>
+        </button>
+        <button data-tab="culinary" onclick="navigateTo('culinary')" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2">
+          <i data-lucide="flame" class="w-4 h-4"></i>
+          <span>Culinary Lab</span>
+        </button>
+        <button data-tab="elements" onclick="navigateTo('elements')" class="nav-tab px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2">
+          <i data-lucide="atom" class="w-4 h-4"></i>
+          <span>Elements of Evolution</span>
+        </button>
+      </div>
+
+      <!-- Right Controls: Creator Studio Toggle & Mobile Menu -->
+      <div class="flex items-center gap-2">
+        <button id="studio-toggle-btn" onclick="toggleStudioMode()" title="Toggle Creator Studio (Ctrl+E)" class="px-3 py-2 rounded-xl text-xs sm:text-sm font-mono font-medium border transition-all flex items-center gap-2 bg-obsidian-850/90 border-white/10 text-slate-300 hover:border-champagne-400/50 hover:text-champagne-300">
+          <span id="studio-indicator-dot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Studio</span>
+        </button>
+
+        <button onclick="openDataManagerModal()" title="Export / Import Site Data" class="p-2 rounded-xl bg-obsidian-850/90 border border-white/10 text-slate-300 hover:text-bio-cyan hover:border-bio-cyan/40 transition-all">
+          <i data-lucide="database" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl bg-obsidian-850 border border-white/10 text-slate-200 hover:text-champagne-400">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-nav-menu" class="hidden md:hidden max-w-7xl mx-auto mt-2 glass-nav rounded-2xl p-3 animate-pop-in">
+      <div class="grid grid-cols-2 gap-2">
+        <button data-tab="home" onclick="navigateTo('home'); toggleMobileMenu(false)" class="nav-tab-mobile p-3 rounded-xl text-sm font-medium flex items-center gap-2.5 text-left">
+          <i data-lucide="compass" class="w-4 h-4"></i>
+          <span>Home</span>
+        </button>
+        <button data-tab="journal" onclick="navigateTo('journal'); toggleMobileMenu(false)" class="nav-tab-mobile p-3 rounded-xl text-sm font-medium flex items-center gap-2.5 text-left">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>Journal</span>
+        </button>
+        <button data-tab="culinary" onclick="navigateTo('culinary'); toggleMobileMenu(false)" class="nav-tab-mobile p-3 rounded-xl text-sm font-medium flex items-center gap-2.5 text-left">
+          <i data-lucide="flame" class="w-4 h-4"></i>
+          <span>Culinary Lab</span>
+        </button>
+        <button data-tab="elements" onclick="navigateTo('elements'); toggleMobileMenu(false)" class="nav-tab-mobile p-3 rounded-xl text-sm font-medium flex items-center gap-2.5 text-left">
+          <i data-lucide="atom" class="w-4 h-4"></i>
+          <span>Elements</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== STUDIO MODE BANNER (VISIBLE WHEN ACTIVE) ==================== -->
+  <div id="studio-banner" class="hidden max-w-7xl mx-auto w-full px-4 sm:px-6 mt-4 animate-fade-in">
+    <div class="rounded-2xl bg-gradient-to-r from-champagne-500/15 via-obsidian-850 to-bio-emerald/15 border border-champagne-400/30 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="px-2.5 py-1 rounded-lg bg-champagne-400/20 text-champagne-300 font-mono text-xs font-semibold uppercase tracking-wider">Creator Studio Active</span>
+        <p class="text-xs sm:text-sm text-slate-300">Inline editing & creation tools are unlocked. Changes save automatically to your browser.</p>
+      </div>
+      <div class="flex items-center gap-2 flex-wrap">
+        <button onclick="openArticleEditor()" class="px-3 py-1.5 rounded-lg bg-obsidian-900 hover:bg-obsidian-800 border border-white/10 text-xs font-medium text-white flex items-center gap-1.5 transition">
+          <i data-lucide="plus" class="w-3.5 h-3.5 text-champagne-400"></i> New Post
+        </button>
+        <button onclick="openRecipeEditor()" class="px-3 py-1.5 rounded-lg bg-obsidian-900 hover:bg-obsidian-800 border border-white/10 text-xs font-medium text-white flex items-center gap-1.5 transition">
+          <i data-lucide="plus" class="w-3.5 h-3.5 text-bio-emerald"></i> New Recipe
+        </button>
+        <button onclick="openElementEditor()" class="px-3 py-1.5 rounded-lg bg-obsidian-900 hover:bg-obsidian-800 border border-white/10 text-xs font-medium text-white flex items-center gap-1.5 transition">
+          <i data-lucide="plus" class="w-3.5 h-3.5 text-bio-cyan"></i> New Element
+        </button>
+        <button onclick="openDataManagerModal()" class="px-3 py-1.5 rounded-lg bg-champagne-500 text-obsidian-950 font-semibold text-xs flex items-center gap-1.5 hover:bg-champagne-400 transition">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Export JSON
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN VIEWPORT CONTAINER ==================== -->
+  <main id="app-viewport" class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12">
+    <!-- Dynamic Page Content Injected Here -->
+  </main>
+
+  <!-- ==================== PERSISTENT FOOTER ==================== -->
+  <footer class="border-t border-white/5 bg-obsidian-950/80 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-champagne-400/10 border border-champagne-400/30 flex items-center justify-center text-champagne-400 font-mono font-bold text-xs">EO</div>
+        <div>
+          <p class="font-display font-semibold text-sm text-white">EVOLVE OPTIMAL</p>
+          <p class="text-xs text-slate-400">Multidisciplinary Human Performance, Culinary Architecture & Training Systems.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-slate-400">
+        <button onclick="navigateTo('home')" class="hover:text-champagne-400 transition">01 // HOME</button>
+        <button onclick="navigateTo('journal')" class="hover:text-champagne-400 transition">02 // JOURNAL</button>
+        <button onclick="navigateTo('culinary')" class="hover:text-champagne-400 transition">03 // CULINARY LAB</button>
+        <button onclick="navigateTo('elements')" class="hover:text-champagne-400 transition">04 // ELEMENTS</button>
+      </div>
+
+      <div class="text-xs text-slate-500 font-mono">
+        <span>Standalone SPA • LocalStorage Ready</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== UNIVERSAL MODAL OVERLAY ==================== -->
+  <div id="modal-backdrop" class="fixed inset-0 z-50 hidden bg-obsidian-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div id="modal-container" class="glass-panel w-full max-w-3xl rounded-3xl border border-white/15 shadow-2xl overflow-hidden my-auto animate-pop-in">
+      <!-- Dynamic Modal Header & Body -->
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ==================== APPLICATION LOGIC & DEFAULT STATE ==================== -->
+  <script>
+    /**
+     * EVOLVE OPTIMAL — STANDALONE MULTI-PAGE SPA ENGINE
+     * Architecture:
+     * 1. DEFAULT_SITE_DATA: Complete initial state (Home config, Journal posts, Culinary Lab recipes, Elements of Evolution periodic table).
+     * 2. State Persistence: Syncs automatically with localStorage ('evolve_optimal_state_v1') with full JSON Export/Import.
+     * 3. Hash Router: Supports #home, #journal, #culinary, #elements seamlessly.
+     * 4. Creator Studio: Inline editing + rich creation modals for adding/modifying any entry.
+     */
+
+    const STORAGE_KEY = 'evolve_optimal_state_v1';
+
+    const ELEMENT_CATEGORIES = {
+      neuro: {
+        label: 'Neuro-Regulation',
+        color: 'cyan',
+        badgeClass: 'bg-cyan-500/15 text-cyan-300 border-cyan-400/30',
+        tileClass: 'from-cyan-500/20 to-obsidian-900/90 border-cyan-400/40 hover:border-cyan-300 hover:shadow-[0_0_25px_rgba(6,182,212,0.35)]',
+        accentText: 'text-cyan-400'
+      },
+      physical: {
+        label: 'Physical Mastery',
+        color: 'emerald',
+        badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-400/30',
+        tileClass: 'from-emerald-500/20 to-obsidian-900/90 border-emerald-400/40 hover:border-emerald-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.35)]',
+        accentText: 'text-emerald-400'
+      },
+      cognitive: {
+        label: 'Cognitive Architecture',
+        color: 'champagne',
+        badgeClass: 'bg-amber-400/15 text-amber-200 border-amber-300/30',
+        tileClass: 'from-amber-400/20 to-obsidian-900/90 border-amber-300/40 hover:border-amber-200 hover:shadow-[0_0_25px_rgba(226,199,146,0.35)]',
+        accentText: 'text-champagne-400'
+      },
+      resilience: {
+        label: 'Resilience & Crisis',
+        color: 'rose',
+        badgeClass: 'bg-rose-500/15 text-rose-300 border-rose-400/30',
+        tileClass: 'from-rose-500/20 to-obsidian-900/90 border-rose-400/40 hover:border-rose-300 hover:shadow-[0_0_25px_rgba(244,63,94,0.35)]',
+        accentText: 'text-rose-400'
+      },
+      leadership: {
+        label: 'Leadership & Systems',
+        color: 'violet',
+        badgeClass: 'bg-violet-500/15 text-violet-300 border-violet-400/30',
+        tileClass: 'from-violet-500/20 to-obsidian-900/90 border-violet-400/40 hover:border-violet-300 hover:shadow-[0_0_25px_rgba(139,92,246,0.35)]',
+        accentText: 'text-violet-400'
+      }
+    };
+
+    const DEFAULT_SITE_DATA = {
+      home: {
+        eyebrow: 'EVOLVE OPTIMAL // MULTIDISCIPLINARY PERFORMANCE HUB',
+        headline: 'Architecting Resilient Minds, Precision Nutrition & Adaptive Systems.',
+        subheadline: 'A living laboratory exploring the intersection of applied neuroscience, functional culinary craft, and modular human performance training.',
+        primaryCta: 'Explore Elements of Evolution',
+        secondaryCta: 'Enter Culinary Lab',
+        manifestoTitle: 'The Philosophy of Intentional Evolution',
+        manifestoBody: 'True optimization is never one-dimensional. Whether calibrating autonomic stress responses under pressure, formulating nutrient-dense culinary protocols, or designing clear mental models, every discipline reinforces the whole.',
+        highlights: [
+          {
+            id: 'hl-1',
+            tag: '01 // JOURNAL',
+            title: 'Field Notes & Essays',
+            desc: 'Long-form writing on cognitive clarity, nervous system regulation, and sustainable high performance.',
+            targetPage: 'journal'
+          },
+          {
+            id: 'hl-2',
+            tag: '02 // CULINARY LAB',
+            title: 'Functional Recipe App',
+            desc: 'Interactive culinary formulations engineered for metabolic stability, recovery, and vibrant flavor.',
+            targetPage: 'culinary'
+          },
+          {
+            id: 'hl-3',
+            tag: '03 // TRAINING MATRIX',
+            title: 'Elements of Evolution',
+            desc: 'An interactive periodic table of modular training protocols you can explore, customize, and master.',
+            targetPage: 'elements'
+          }
+        ]
+      },
+
+      articles: [
+        {
+          id: 'art-1',
+          title: 'Autonomic Down-Regulation: Switching Off High-Alert Mode in 90 Seconds',
+          category: 'Neuroscience & Mindset',
+          date: 'Nov 12, 2026',
+          readTime: '6 min read',
+          featured: true,
+          excerpt: 'Why modern knowledge workers remain trapped in low-grade sympathetic arousal—and the exact respiratory mechanics that restore vagal tone between high-stakes sessions.',
+          content: `Modern high-output environments rarely require physical sprint speed, yet our nervous systems respond to back-to-back cognitive demands as though we are navigating physical terrain.\n\nWhen sympathetic tone stays elevated for hours, prefrontal executive function narrows. Creativity drops, reactive decision-making rises, and sleep architecture fragments.\n\n### The Physiological Sigh & Cadence Shift\nResearch from Stanford's neurobiology labs confirms that double-inhales followed by an extended, unhurried exhale rapidly offload trapped carbon dioxide and mechanically stimulate the vagus nerve via diaphragm excursion.\n\n### Protocol Implementation\n1. Two sharp nasal inhales (first deep, second a quick top-off).\n2. One slow, controlled exhale through pursed lips lasting 6 to 8 seconds.\n3. Repeat for 4 to 6 cycles before transitioning between deep work blocks or leadership meetings.`
+        },
+        {
+          id: 'art-2',
+          title: 'Metabolic Flexibility & Cognitive Endurance: Designing the Midday Meal',
+          category: 'Movement & Recovery',
+          date: 'Nov 04, 2026',
+          readTime: '5 min read',
+          featured: false,
+          excerpt: 'Eliminating the 2:30 PM glucose crash starts with meal sequencing, polyphenol density, and strategic amino acid pairing.',
+          content: `Most afternoon brain fog is not a caffeine deficiency—it is a postprandial glycemic rollercoaster triggered by isolated refined carbohydrates.\n\nBy leading meals with fibrous greens, anchoring with 35–45g of clean bioavailable protein, and incorporating monounsaturated fats, glucose absorption slows dramatically.\n\nExplore our Culinary Lab tab for ready-to-cook bowls and neuro-fuel elixirs built around these exact ratios.`
+        },
+        {
+          id: 'art-3',
+          title: 'Building Modular Personal Knowledge & Training Systems',
+          category: 'Community & Systems',
+          date: 'Oct 26, 2026',
+          readTime: '7 min read',
+          featured: false,
+          excerpt: 'How organizing skills into atomic, composable building blocks accelerates mastery across teams and individuals.',
+          content: `Complex mastery becomes effortless when decomposed into atomic elements. Just as chemistry organizes matter by atomic structure and reactivity, human performance can be mapped into foundational protocols.\n\nWhen each skill has clear prerequisites, measurable outputs, and repeatable drills, anyone can assemble a custom curriculum tailored to their current season of life.`
+        },
+        {
+          id: 'art-4',
+          title: 'Thermal Contrast & Vascular Resilience: Minimal Effective Doses',
+          category: 'Field Notes',
+          date: 'Oct 15, 2026',
+          readTime: '4 min read',
+          featured: false,
+          excerpt: 'You do not need extreme ice baths to trigger norepinephrine release and endothelial adaptation. Here is what the data actually supports.',
+          content: `Consistency beats heroics in thermal hormesis. Just 11 minutes of total cold exposure per week—split across 2 to 4 brief sessions—paired with deliberate heat exposure supports mood, circulation, and stress inoculation.\n\nThe golden rule: end on cold when seeking daytime alertness, and end on warmth when prioritizing evening parasympathetic recovery.`
+        }
+      ],
+
+      recipes: [
+        {
+          id: 'rec-1',
+          title: 'Wild Salmon, Avocado & Black Forbidden Rice Neuro-Bowl',
+          category: 'Neuro-Fuel',
+          prepTime: '25 mins',
+          calories: '610 kcal',
+          protein: '42g Protein',
+          difficulty: 'Intermediate',
+          benefit: 'Rich in DHA/EPA omega-3s & anthocyanins for sustained synaptic clarity.',
+          imageUrl: '',
+          gradient: 'from-cyan-500/25 via-emerald-500/15 to-obsidian-900',
+          ingredients: [
+            '6 oz wild-caught King or Sockeye salmon fillet',
+            '3/4 cup cooked black forbidden rice',
+            '1/2 ripe Hass avocado, sliced',
+            '1 cup steamed edamame & baby bok choy',
+            '1 tbsp toasted sesame oil + 1 tsp tamari',
+            '1 tsp freshly grated ginger & a squeeze of yuzu or lime',
+            'Garnish: toasted black sesame seeds & micro-cilantro'
+          ],
+          steps: [
+            'Simmer black forbidden rice in bone or vegetable broth for 22 minutes until tender and nutty.',
+            'Pat salmon dry, season with sea salt, cracked pepper, and grated ginger. Sear skin-side down in avocado oil for 4 minutes, then flip for 2 minutes.',
+            'Whisk tamari, toasted sesame oil, and yuzu juice into a bright emulsion.',
+            'Assemble rice, greens, edamame, avocado, and flaked salmon in a wide ceramic bowl. Drizzle dressing and finish with sesame seeds.'
+          ]
+        },
+        {
+          id: 'rec-2',
+          title: 'Golden Turmeric, Ginger & Collagen Recovery Elixir',
+          category: 'Anti-Inflammatory',
+          prepTime: '8 mins',
+          calories: '210 kcal',
+          protein: '20g Protein',
+          difficulty: 'Effortless',
+          benefit: 'Curcumin + piperine synergy to down-regulate post-training inflammation.',
+          imageUrl: '',
+          gradient: 'from-amber-400/25 via-orange-500/15 to-obsidian-900',
+          ingredients: [
+            '1 cup unsweetened almond or macadamia milk',
+            '1 tsp organic turmeric powder (or 1 inch fresh root)',
+            '1/2 inch fresh ginger root, peeled',
+            '2 scoops grass-fed hydrolyzed collagen peptides',
+            'Pinch of freshly cracked black pepper (essential for curcumin bioavailability)',
+            '1/2 tsp Ceylon cinnamon + 1 tsp raw Manuka honey'
+          ],
+          steps: [
+            'Gently warm macadamia milk in a small saucepan over medium-low heat—avoid boiling.',
+            'Add turmeric, grated ginger, cinnamon, and black pepper; whisk continuously for 3 minutes.',
+            'Remove from heat, transfer to a blender with collagen peptides and honey, and blend for 15 seconds until velvety froth forms.'
+          ]
+        },
+        {
+          id: 'rec-3',
+          title: 'Herb-Crusted Bison & Roasted Sweet Potato Power Plate',
+          category: 'High-Protein',
+          prepTime: '30 mins',
+          calories: '680 kcal',
+          protein: '48g Protein',
+          difficulty: 'Easy',
+          benefit: 'Bioavailable heme iron, B12, and slow-release glycogen replenishment.',
+          imageUrl: '',
+          gradient: 'from-emerald-500/25 via-teal-500/15 to-obsidian-900',
+          ingredients: [
+            '7 oz grass-fed ground bison or flank steak',
+            '1 medium Japanese sweet potato, cubed',
+            '2 cups arugula tossed with lemon & extra-virgin olive oil',
+            '1 tbsp fresh rosemary & thyme, finely minced',
+            '1 tbsp grass-fed ghee or cold-pressed avocado oil',
+            'Flaky Maldon sea salt'
+          ],
+          steps: [
+            'Toss cubed Japanese sweet potatoes in avocado oil, rosemary, and sea salt. Roast at 425°F (220°C) for 22 minutes until caramelized.',
+            'Sear bison in a cast-iron skillet over medium-high heat with thyme and ghee until medium-rare.',
+            'Plate alongside crisp lemon-dressed arugula and roasted sweet potatoes.'
+          ]
+        },
+        {
+          id: 'rec-4',
+          title: 'Tart Cherry, Magnesium & Cacao Nightcap Mousse',
+          category: 'Recovery',
+          prepTime: '10 mins',
+          calories: '240 kcal',
+          protein: '14g Protein',
+          difficulty: 'Effortless',
+          benefit: 'Natural melatonin precursors + magnesium glycinate to deepen slow-wave sleep.',
+          imageUrl: '',
+          gradient: 'from-violet-500/25 via-rose-500/15 to-obsidian-900',
+          ingredients: [
+            '1/2 cup organic unsweetened Greek yogurt or coconut yogurt',
+            '2 tbsp Montmorency tart cherry concentrate',
+            '1 tbsp raw ceremonial cacao powder',
+            '1 scoop magnesium bisglycinate powder (unflavored)',
+            '6 crushed raw pistachios & dark cacao nibs'
+          ],
+          steps: [
+            'Whip yogurt, tart cherry concentrate, cacao powder, and magnesium until smooth and aerated.',
+            'Chill for 10 minutes, top with crushed pistachios and cacao nibs, and enjoy 60 minutes before sleep.'
+          ]
+        }
+      ],
+
+      elements: [
+        // Row 1 (Period 1: Foundations - Col 1 & Col 18)
+        {
+          id: 'el-1',
+          number: 1,
+          symbol: 'Br',
+          name: 'Breath Mechanics',
+          category: 'neuro',
+          row: 1,
+          col: 1,
+          duration: '25 Min Module',
+          level: 'Foundation',
+          summary: 'Master CO2 tolerance, nasal cadence, and rapid vagal down-regulation under acute pressure.',
+          objectives: [
+            'Measure baseline BOLT (Body Oxygen Level Test) score',
+            'Execute Physiological Sighs for instant autonomic reset',
+            'Apply box & cadence breathing during cognitive load'
+          ],
+          content: `### Module 01: Breath Mechanics (Br)\n\nRespiration is the only autonomic system you can consciously control in real time. By altering inhale-to-exhale ratios, you directly steer heart rate variability (HRV) and locus coeruleus arousal.\n\n**Core Practice:**\n- **4-7-8 Cadence:** Evening sympathetic brake.\n- **Double-Inhale Sigh:** Rapid mid-day reset between high-stakes demands.\n- **Nasal-Only Zone 2:** Builds nitric oxide efficiency and CO2 tolerance.`
+        },
+        {
+          id: 'el-2',
+          number: 2,
+          symbol: 'Sl',
+          name: 'Sleep Architecture',
+          category: 'physical',
+          row: 1,
+          col: 18,
+          duration: '40 Min Module',
+          level: 'Foundation',
+          summary: 'Engineer circadian alignment, thermal drop, and deep slow-wave glymphatic clearance.',
+          objectives: [
+            'Anchor morning cortisol pulse with 10-minute solar photon exposure',
+            'Optimize bedroom thermal envelope (65°F / 18°C)',
+            'Eliminate late-evening blue spectrum & metabolic disruption'
+          ],
+          content: `### Module 02: Sleep Architecture (Sl)\n\nSleep is the master multiplier of every cognitive, emotional, and physical adaptation. Deep NREM sleep consolidates motor memory and clears metabolic waste, while REM recalibrates emotional circuitry.\n\n**The 3-2-1 Protocol:**\n- **3 hours** before bed: finish final caloric intake.\n- **2 hours** before bed: conclude intense analytical work.\n- **1 hour** before bed: dim overhead lighting and transition to analog recovery.`
+        },
+
+        // Row 2 (Cols 1-2 & Cols 13-18)
+        {
+          id: 'el-3',
+          number: 3,
+          symbol: 'Fc',
+          name: 'Focus Priming',
+          category: 'cognitive',
+          row: 2,
+          col: 1,
+          duration: '35 Min Module',
+          level: 'Core',
+          summary: 'Design friction-free 90-minute ultradian deep work sprints with visual & auditory anchors.',
+          objectives: [
+            'Align peak analytical tasks with circadian temperature rise',
+            'Use narrow visual gaze fixation to trigger norepinephrine focus',
+            'Structure 15-minute non-screen neural rest intervals'
+          ],
+          content: `### Module 03: Focus Priming (Fc)\n\nAttention is not an on/off switch—it requires a 12-to-15 minute neurochemical ramp-up. Protecting the threshold of an ultradian cycle prevents fragmented shallow work.`
+        },
+        {
+          id: 'el-4',
+          number: 4,
+          symbol: 'Mb',
+          name: 'Mobility Flow',
+          category: 'physical',
+          row: 2,
+          col: 2,
+          duration: '30 Min Module',
+          level: 'Foundation',
+          summary: 'Controlled Articular Rotations (CARs) and end-range joint resilience for lifelong movement freedom.',
+          objectives: [
+            'Perform a 10-minute morning full-spine & hip CARs sequence',
+            'Decompress thoracic rigidity caused by desk posture',
+            'Build isometric strength at end-range joint angles'
+          ],
+          content: `### Module 04: Mobility Flow (Mb)\n\nFlexibility is passive; mobility is usable strength through full joint range of motion. Daily Controlled Articular Rotations nourish joint capsules and feed mechanoreceptor feedback to the cerebellum.`
+        },
+        {
+          id: 'el-5',
+          number: 5,
+          symbol: 'Mm',
+          name: 'Mental Models',
+          category: 'cognitive',
+          row: 2,
+          col: 13,
+          duration: '45 Min Module',
+          level: 'Intermediate',
+          summary: 'First-principles reasoning, inversion, and second-order consequence mapping for complex decisions.',
+          objectives: [
+            'Apply Inversion to pre-mortem high-risk initiatives',
+            'Separate signal from noise using probabilistic thinking',
+            'Build a personal latticework of cross-disciplinary frameworks'
+          ],
+          content: `### Module 05: Mental Models (Mm)\n\nSuperior decisions rarely come from raw IQ alone; they emerge from viewing a problem through multiple reliable lenses—First Principles, Inversion, Opportunity Cost, and Asymmetric Risk.`
+        },
+        {
+          id: 'el-6',
+          number: 6,
+          symbol: 'Vg',
+          name: 'Vagal Tone',
+          category: 'neuro',
+          row: 2,
+          col: 14,
+          duration: '30 Min Module',
+          level: 'Core',
+          summary: 'Strengthen parasympathetic brake responsiveness and emotional composure in volatile rooms.',
+          objectives: [
+            'Track and interpret morning Heart Rate Variability (HRV) trends',
+            'Utilize humming, cold facial immersion, and panoramic vision',
+            'Rapidly recover baseline calm after interpersonal conflict'
+          ],
+          content: `### Module 06: Vagal Tone (Vg)\n\nHigh vagal tone reflects cardiovascular and emotional adaptability—the ability to surge energy when needed and decelerate effortlessly once the challenge concludes.`
+        },
+        {
+          id: 'el-7',
+          number: 7,
+          symbol: 'St',
+          name: 'Stress Inoculation',
+          category: 'resilience',
+          row: 2,
+          col: 15,
+          duration: '50 Min Module',
+          level: 'Advanced',
+          summary: 'Voluntary hormetic exposure to calibrate calm execution during real-world crisis.',
+          objectives: [
+            'Practice cognitive reframing under controlled discomfort',
+            'Separate physical sensation from catastrophic narrative',
+            'Maintain vocal & decision clarity under time compression'
+          ],
+          content: `### Module 07: Stress Inoculation (St)\n\nBy voluntarily stepping into controlled stressors—whether cold immersion, intense intervals, or high-stakes simulations—you train the prefrontal cortex to stay online when adrenaline spikes.`
+        },
+        {
+          id: 'el-8',
+          number: 8,
+          symbol: 'Sy',
+          name: 'Systems Design',
+          category: 'leadership',
+          row: 2,
+          col: 16,
+          duration: '55 Min Module',
+          level: 'Advanced',
+          summary: 'Replace willpower-dependent habits with self-reinforcing environmental and team architectures.',
+          objectives: [
+            'Audit friction points in daily workflows and team rituals',
+            'Design feedback loops that surface bottlenecks early',
+            'Create clear standard operating rhythms without micromanagement'
+          ],
+          content: `### Module 08: Systems Design (Sy)\n\nYou do not rise to the level of your goals; you fall to the level of your systems. Well-architected environments make optimal behaviors the default path of least resistance.`
+        },
+
+        // Row 3 (Cols 1-2 & Cols 13-18)
+        {
+          id: 'el-9',
+          number: 9,
+          symbol: 'Mt',
+          name: 'Metabolic Fuel',
+          category: 'physical',
+          row: 3,
+          col: 1,
+          duration: '40 Min Module',
+          level: 'Core',
+          summary: 'Nutrient timing, glycemic stability, and mitochondrial biogenesis for clean all-day energy.',
+          objectives: [
+            'Construct meals around protein threshold & polyphenol diversity',
+            'Eliminate afternoon glucose volatility',
+            'Integrate Zone 2 aerobic base training for mitochondrial density'
+          ],
+          content: `### Module 09: Metabolic Fuel (Mt)\n\nClean cellular ATP production underpins mental stamina. Combining whole-food micronutrient density with regular Zone 2 movement builds metabolic flexibility.`
+        },
+        {
+          id: 'el-10',
+          number: 10,
+          symbol: 'Th',
+          name: 'Thermal Hormesis',
+          category: 'resilience',
+          row: 3,
+          col: 2,
+          duration: '30 Min Module',
+          level: 'Intermediate',
+          summary: 'Strategic sauna heat shock proteins and cold dopamine/norepinephrine protocols.',
+          objectives: [
+            'Follow the 11-minute weekly cold / 57-minute weekly heat benchmark',
+            'Use post-sauna cooling for cardiovascular conditioning',
+            'Time thermal sessions to support rather than blunt hypertrophy'
+          ],
+          content: `### Module 10: Thermal Hormesis (Th)\n\nDeliberate temperature contrast challenges vascular elasticity and triggers durable neurochemical elevations without pharmacological crashes.`
+        },
+        {
+          id: 'el-11',
+          number: 11,
+          symbol: 'Fw',
+          name: 'Flow Triggers',
+          category: 'cognitive',
+          row: 3,
+          col: 13,
+          duration: '45 Min Module',
+          level: 'Intermediate',
+          summary: 'Calibrate the challenge-to-skill ratio to unlock effortless transient hypofrontality.',
+          objectives: [
+            'Dial tasks into the 4% stretch zone above current skill',
+            'Establish clear immediate goals and unambiguous feedback',
+            'Protect uninterrupted multi-hour creative blocks'
+          ],
+          content: `### Module 11: Flow Triggers (Fw)\n\nFlow emerges when distraction disappears and challenge slightly exceeds current capability—merging action and awareness into peak creative output.`
+        },
+        {
+          id: 'el-12',
+          number: 12,
+          symbol: 'Eq',
+          name: 'Emotional Equanimity',
+          category: 'neuro',
+          row: 3,
+          col: 14,
+          duration: '35 Min Module',
+          level: 'Core',
+          summary: 'Interoceptive awareness and cognitive labeling to transform emotional reactivity into data.',
+          objectives: [
+            'Practice affect labeling to quiet amygdala activation',
+            'Expand the stimulus-to-response pause during high friction',
+            'Cultivate grounded presence in turbulent environments'
+          ],
+          content: `### Module 12: Emotional Equanimity (Eq)\n\nEquanimity is not suppression; it is full awareness of internal states without being hijacked by them.`
+        },
+        {
+          id: 'el-13',
+          number: 13,
+          symbol: 'Cr',
+          name: 'Crisis Clarity',
+          category: 'resilience',
+          row: 3,
+          col: 15,
+          duration: '50 Min Module',
+          level: 'Mastery',
+          summary: 'OODA loop acceleration, triage protocols, and decisive communication when stakes peak.',
+          objectives: [
+            'Execute rapid Observe-Orient-Decide-Act cycles',
+            'Prioritize vital variables under incomplete information',
+            'Anchor team composure through calm, concise directives'
+          ],
+          content: `### Module 13: Crisis Clarity (Cr)\n\nIn high-consequence moments, clarity is contagious. Slowing your cadence, widening your visual field, and isolating the single next right action stabilizes the entire room.`
+        },
+        {
+          id: 'el-14',
+          number: 14,
+          symbol: 'Cl',
+          name: 'Cultural Architecture',
+          category: 'leadership',
+          row: 3,
+          col: 16,
+          duration: '60 Min Module',
+          level: 'Mastery',
+          summary: 'Build high-trust, high-accountability teams united by shared standards and psychological safety.',
+          objectives: [
+            'Balance fierce candor with genuine personal care',
+            'Codify non-negotiable operating principles',
+            'Turn retrospectives into blameless learning engines'
+          ],
+          content: `### Module 14: Cultural Architecture (Cl)\n\nHigh-performing cultures thrive where standards are crystal clear and experimentation is rewarded over defensiveness.`
+        },
+        {
+          id: 'el-15',
+          number: 15,
+          symbol: 'Nr',
+          name: 'Neuroplasticity Drills',
+          category: 'neuro',
+          row: 3,
+          col: 17,
+          duration: '40 Min Module',
+          level: 'Intermediate',
+          summary: 'Harnessing productive frustration, acetylcholine focus, and NSDR to rewire adult neural circuits.',
+          objectives: [
+            'Embrace error-driven learning signals as synaptic catalysts',
+            'Pair intense skill bouts with 20-minute Non-Sleep Deep Rest',
+            'Accelerate motor and cognitive skill acquisition'
+          ],
+          content: `### Module 15: Neuroplasticity Drills (Nr)\n\nAdult brain rewiring requires two distinct phases: high-alert focused effort (acetylcholine + epinephrine) followed by deep neural rest where synaptic strengthening actually solidifies.`
+        },
+        {
+          id: 'el-16',
+          number: 16,
+          symbol: 'Sn',
+          name: 'Strategic Narrative',
+          category: 'leadership',
+          row: 3,
+          col: 18,
+          duration: '45 Min Module',
+          level: 'Core',
+          summary: 'Synthesize complex vision into compelling, actionable stories that align people and purpose.',
+          objectives: [
+            'Frame transformation around shared meaning and concrete stakes',
+            'Eliminate jargon in favor of vivid mental imagery',
+            'Connect daily execution to long-horizon mission'
+          ],
+          content: `### Module 16: Strategic Narrative (Sn)\n\nPeople do not rally around spreadsheets—they rally around coherent stories that clarify where we are, why change matters, and what victory looks like.`
+        }
+      ],
+
+      completedElements: ['el-1', 'el-2']
+    };
+
+    // Application Runtime State
+    let appState = loadState();
+    let currentRoute = getRouteFromHash();
+    let studioMode = false;
+    let activeJournalCategory = 'All';
+    let activeCulinaryCategory = 'All';
+    let culinarySearchQuery = '';
+    let activeElementCategory = 'All';
+    let selectedElementId = appState.elements[0]?.id || null;
+
+    // ==================== STATE PERSISTENCE ====================
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(DEFAULT_SITE_DATA);
+        const parsed = JSON.parse(raw);
+        return {
+          ...structuredClone(DEFAULT_SITE_DATA),
+          ...parsed
+        };
+      } catch (err) {
+        console.warn('Failed to parse saved state, falling back to defaults.', err);
+        return structuredClone(DEFAULT_SITE_DATA);
+      }
+    }
+
+    function saveState(notify = false) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        if (notify) showToast('Changes saved to local studio storage', 'success');
+      } catch (err) {
+        showToast('Unable to save to localStorage (storage quota full)', 'error');
+      }
+    }
+
+    // ==================== ROUTING & NAVIGATION ====================
+    function getRouteFromHash() {
+      const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+      const valid = ['home', 'journal', 'culinary', 'elements'];
+      return valid.includes(hash) ? hash : 'home';
+    }
+
+    function navigateTo(route) {
+      currentRoute = route;
+      if (window.location.hash !== `#${route}`) {
+        history.pushState(null, '', `#${route}`);
+      }
+      updateNavHighlight();
+      renderCurrentPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('hashchange', () => {
+      currentRoute = getRouteFromHash();
+      updateNavHighlight();
+      renderCurrentPage();
+    });
+
+    function updateNavHighlight() {
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        const isActive = btn.dataset.tab === currentRoute;
+        if (isActive) {
+          btn.className = 'nav-tab px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 bg-gradient-to-r from-champagne-400/20 to-bio-emerald/15 text-champagne-300 border border-champagne-400/35 shadow-sm';
+        } else {
+          btn.className = 'nav-tab px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent';
+        }
+      });
+
+      document.querySelectorAll('.nav-tab-mobile').forEach(btn => {
+        const isActive = btn.dataset.tab === currentRoute;
+        if (isActive) {
+          btn.className = 'nav-tab-mobile p-3 rounded-xl text-sm font-semibold flex items-center gap-2.5 text-left bg-champagne-400/15 text-champagne-300 border border-champagne-400/30';
+        } else {
+          btn.className = 'nav-tab-mobile p-3 rounded-xl text-sm font-medium flex items-center gap-2.5 text-left text-slate-300 hover:bg-white/5 border border-transparent';
+        }
+      });
+    }
+
+    function toggleMobileMenu(forceState) {
+      const menu = document.getElementById('mobile-nav-menu');
+      if (typeof forceState === 'boolean') {
+        menu.classList.toggle('hidden', !forceState);
+      } else {
+        menu.classList.toggle('hidden');
+      }
+    }
+
+    // ==================== CREATOR STUDIO MODE ====================
+    function toggleStudioMode() {
+      studioMode = !studioMode;
+      document.body.classList.toggle('studio-active', studioMode);
+
+      const btn = document.getElementById('studio-toggle-btn');
+      const dot = document.getElementById('studio-indicator-dot');
+      const banner = document.getElementById('studio-banner');
+
+      if (studioMode) {
+        btn.classList.add('border-champagne-400', 'text-champagne-300', 'bg-champagne-400/10');
+        dot.classList.remove('bg-slate-500');
+        dot.classList.add('bg-bio-emerald', 'animate-ping');
+        banner.classList.remove('hidden');
+        showToast('Creator Studio unlocked — click any edit icon or + button to customize', 'info');
+      } else {
+        btn.classList.remove('border-champagne-400', 'text-champagne-300', 'bg-champagne-400/10');
+        dot.classList.add('bg-slate-500');
+        dot.classList.remove('bg-bio-emerald', 'animate-ping');
+        banner.classList.add('hidden');
+      }
+
+      renderCurrentPage();
+    }
+
+    // Keyboard shortcut Ctrl+E / Cmd+E for Studio Mode
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'e') {
+        e.preventDefault();
+        toggleStudioMode();
+      }
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // ==================== PAGE RENDER DISPATCHER ====================
+    function renderCurrentPage() {
+      const viewport = document.getElementById('app-viewport');
+      if (currentRoute === 'home') {
+        viewport.innerHTML = renderHomePage();
+      } else if (currentRoute === 'journal') {
+        viewport.innerHTML = renderJournalPage();
+      } else if (currentRoute === 'culinary') {
+        viewport.innerHTML = renderCulinaryPage();
+      } else if (currentRoute === 'elements') {
+        viewport.innerHTML = renderElementsPage();
+      }
+      lucide.createIcons();
+    }
+
+    // ==================== 1. HOME PAGE VIEW ====================
+    function renderHomePage() {
+      const h = appState.home;
+      const completedCount = appState.completedElements.length;
+      const totalElements = appState.elements.length;
+
+      return `
+        <div class="space-y-14 animate-fade-in">
+          <!-- Hero Section -->
+          <section class="relative glass-panel rounded-3xl p-7 sm:p-12 lg:p-16 overflow-hidden border border-white/10">
+            <!-- Ambient Glow Orbs -->
+            <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-champagne-400/10 blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-bio-emerald/10 blur-3xl pointer-events-none"></div>
+
+            ${studioMode ? `
+              <div class="flex justify-end mb-4">
+                <button onclick="openHomeHeroEditor()" class="px-3.5 py-1.5 rounded-xl bg-champagne-400/20 hover:bg-champagne-400/30 border border-champagne-400/40 text-champagne-300 text-xs font-mono flex items-center gap-1.5 transition">
+                  <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Hero & Manifesto
+                </button>
+              </div>
+            ` : ''}
+
+            <div class="relative z-10 max-w-4xl space-y-6">
+              <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-obsidian-950/80 border border-champagne-400/30 text-champagne-300 font-mono text-xs tracking-wider">
+                <span class="w-2 h-2 rounded-full bg-bio-emerald"></span>
+                <span>${escapeHtml(h.eyebrow)}</span>
+              </div>
+
+              <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.1]">
+                ${escapeHtml(h.headline)}
+              </h1>
+
+              <p class="text-base sm:text-lg lg:text-xl text-slate-300 max-w-2xl leading-relaxed">
+                ${escapeHtml(h.subheadline)}
+              </p>
+
+              <div class="pt-3 flex flex-wrap items-center gap-4">
+                <button onclick="navigateTo('elements')" class="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-champagne-400 to-champagne-500 text-obsidian-950 font-display font-bold text-sm sm:text-base shadow-lg shadow-champagne-500/20 hover:brightness-110 transition flex items-center gap-2.5">
+                  <i data-lucide="atom" class="w-5 h-5"></i>
+                  <span>${escapeHtml(h.primaryCta)}</span>
+                </button>
+
+                <button onclick="navigateTo('culinary')" class="px-6 py-3.5 rounded-2xl bg-obsidian-850 hover:bg-obsidian-800 text-white font-display font-semibold text-sm sm:text-base border border-white/15 hover:border-bio-emerald/50 transition flex items-center gap-2.5">
+                  <i data-lucide="flame" class="w-5 h-5 text-bio-emerald"></i>
+                  <span>${escapeHtml(h.secondaryCta)}</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Live Lab Telemetry Strip -->
+            <div class="relative z-10 mt-12 pt-8 border-t border-white/10 grid grid-cols-2 sm:grid-cols-4 gap-6">
+              <div>
+                <p class="font-mono text-xs text-slate-400 uppercase">Training Matrix</p>
+                <p class="font-display font-bold text-2xl text-white mt-1">${totalElements} <span class="text-sm font-normal text-champagne-400">Elements</span></p>
+              </div>
+              <div>
+                <p class="font-mono text-xs text-slate-400 uppercase">Modules Mastered</p>
+                <p class="font-display font-bold text-2xl text-bio-emerald mt-1">${completedCount} <span class="text-sm font-normal text-slate-400">/ ${totalElements}</span></p>
+              </div>
+              <div>
+                <p class="font-mono text-xs text-slate-400 uppercase">Culinary Formulations</p>
+                <p class="font-display font-bold text-2xl text-white mt-1">${appState.recipes.length} <span class="text-sm font-normal text-bio-cyan">Protocols</span></p>
+              </div>
+              <div>
+                <p class="font-mono text-xs text-slate-400 uppercase">Journal Dispatches</p>
+                <p class="font-display font-bold text-2xl text-white mt-1">${appState.articles.length} <span class="text-sm font-normal text-slate-400">Essays</span></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Bento Grid Navigation Cards -->
+          <section class="space-y-6">
+            <div class="flex items-end justify-between">
+              <div>
+                <p class="font-mono text-xs text-champagne-400 uppercase tracking-widest">Ecosystem Architecture</p>
+                <h2 class="font-display font-bold text-2xl sm:text-3xl text-white mt-1">Explore the Disciplines</h2>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              ${h.highlights.map((card, idx) => {
+                const icons = ['book-open', 'flame', 'atom'];
+                const accents = [
+                  'hover:border-champagne-400/50 group-hover:text-champagne-400',
+                  'hover:border-bio-emerald/50 group-hover:text-bio-emerald',
+                  'hover:border-bio-cyan/50 group-hover:text-bio-cyan'
+                ];
+                return `
+                  <div onclick="navigateTo('${card.targetPage}')" class="group cursor-pointer glass-panel rounded-3xl p-7 border border-white/10 ${accents[idx % 3]} transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between">
+                    <div class="space-y-4">
+                      <div class="flex items-center justify-between">
+                        <span class="font-mono text-xs text-slate-400">${escapeHtml(card.tag)}</span>
+                        <div class="w-10 h-10 rounded-xl bg-obsidian-950 border border-white/10 flex items-center justify-center text-slate-200 ${accents[idx % 3]} transition-colors">
+                          <i data-lucide="${icons[idx % 3]}" class="w-5 h-5"></i>
+                        </div>
+                      </div>
+                      <h3 class="font-display font-bold text-xl text-white">${escapeHtml(card.title)}</h3>
+                      <p class="text-sm text-slate-300 leading-relaxed">${escapeHtml(card.desc)}</p>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-300">
+                      <span>ENTER MODULE</span>
+                      <i data-lucide="arrow-up-right" class="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </section>
+
+          <!-- Manifesto & Quick Preview Split -->
+          <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 glass-panel rounded-3xl p-8 border border-white/10 flex flex-col justify-between space-y-6">
+              <div class="space-y-4">
+                <span class="font-mono text-xs text-bio-emerald uppercase tracking-widest">Core Thesis</span>
+                <h2 class="font-display font-bold text-2xl sm:text-3xl text-white">${escapeHtml(h.manifestoTitle)}</h2>
+                <p class="text-slate-300 leading-relaxed text-base">${escapeHtml(h.manifestoBody)}</p>
+              </div>
+              <div class="flex flex-wrap gap-3 pt-2">
+                <span class="px-3 py-1.5 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-slate-300">#AppliedNeuroscience</span>
+                <span class="px-3 py-1.5 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-slate-300">#PrecisionCulinary</span>
+                <span class="px-3 py-1.5 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-slate-300">#ModularMastery</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 glass-panel rounded-3xl p-8 border border-champagne-400/25 bg-gradient-to-br from-obsidian-850 to-obsidian-950 flex flex-col justify-between space-y-6">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono text-xs text-champagne-400 uppercase">Customizable Workspace</span>
+                  <i data-lucide="sparkles" class="w-4 h-4 text-champagne-400"></i>
+                </div>
+                <h3 class="font-display font-bold text-xl text-white">Your Living Digital Sanctuary</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                  Activate <strong class="text-champagne-300">Studio Mode</strong> in the top bar at any time to publish new journal entries, upload personal recipes, or customize the Elements of Evolution periodic table.
+                </p>
+              </div>
+              <button onclick="toggleStudioMode()" class="w-full py-3 rounded-xl bg-champagne-400/15 hover:bg-champagne-400/25 border border-champagne-400/40 text-champagne-300 font-mono text-xs font-semibold uppercase tracking-wider transition">
+                ${studioMode ? 'Studio Mode is Active' : 'Activate Creator Studio'}
+              </button>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    // ==================== 2. JOURNAL (BLOG) PAGE VIEW ====================
+    function renderJournalPage() {
+      const categories = ['All', ...new Set(appState.articles.map(a => a.category))];
+      const filtered = activeJournalCategory === 'All'
+        ? appState.articles
+        : appState.articles.filter(a => a.category === activeJournalCategory);
+
+      const featuredArticle = filtered.find(a => a.featured) || filtered[0];
+      const remainingArticles = filtered.filter(a => a.id !== featuredArticle?.id);
+
+      return `
+        <div class="space-y-10 animate-fade-in">
+          <!-- Page Header -->
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div class="space-y-2">
+              <p class="font-mono text-xs text-champagne-400 uppercase tracking-widest">02 // EVOLVE JOURNAL</p>
+              <h1 class="font-display font-extrabold text-3xl sm:text-5xl text-white">Field Notes & Dispatches</h1>
+              <p class="text-slate-300 max-w-2xl text-sm sm:text-base">
+                Essays, research syntheses, and practical frameworks on cognitive architecture, physiology, and intentional living.
+              </p>
+            </div>
+
+            <button onclick="openArticleEditor()" class="self-start md:self-auto px-5 py-3 rounded-2xl bg-champagne-400 hover:bg-champagne-300 text-obsidian-950 font-display font-bold text-sm flex items-center gap-2 shadow-lg shadow-champagne-500/15 transition">
+              <i data-lucide="pen-square" class="w-4 h-4"></i>
+              <span>Write New Entry</span>
+            </button>
+          </div>
+
+          <!-- Category Filter Bar -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-2">
+            ${categories.map(cat => {
+              const active = cat === activeJournalCategory;
+              return `
+                <button onclick="setJournalCategory('${escapeHtml(cat)}')" class="px-4 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition ${active ? 'bg-champagne-400/20 text-champagne-300 border border-champagne-400/40 font-semibold' : 'bg-obsidian-850/80 text-slate-400 border border-white/10 hover:text-white'}">
+                  ${escapeHtml(cat)}
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          ${filtered.length === 0 ? `
+            <div class="glass-panel rounded-3xl p-12 text-center space-y-4">
+              <p class="text-slate-400">No journal entries found in this category yet.</p>
+              <button onclick="openArticleEditor()" class="px-4 py-2 rounded-xl bg-champagne-400 text-obsidian-950 font-semibold text-sm">Create First Entry</button>
+            </div>
+          ` : `
+            <!-- Featured Article Hero -->
+            ${featuredArticle ? `
+              <article onclick="openArticleReader('${featuredArticle.id}')" class="group cursor-pointer glass-panel rounded-3xl p-7 sm:p-10 border border-white/10 hover:border-champagne-400/40 transition-all relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-72 h-72 bg-champagne-400/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                  <div class="flex items-center gap-3">
+                    <span class="px-3 py-1 rounded-full bg-champagne-400/15 border border-champagne-400/30 text-champagne-300 font-mono text-xs">Featured Essay</span>
+                    <span class="font-mono text-xs text-bio-emerald">${escapeHtml(featuredArticle.category)}</span>
+                  </div>
+                  <div class="flex items-center gap-3 font-mono text-xs text-slate-400">
+                    <span>${escapeHtml(featuredArticle.date)}</span>
+                    <span>•</span>
+                    <span>${escapeHtml(featuredArticle.readTime)}</span>
+                    ${studioMode ? `
+                      <button onclick="event.stopPropagation(); openArticleEditor('${featuredArticle.id}')" class="p-1.5 rounded-lg bg-obsidian-900 border border-white/15 text-champagne-300 hover:bg-champagne-400/20" title="Edit Article">
+                        <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
+                      </button>
+                    ` : ''}
+                  </div>
+                </div>
+
+                <h2 class="font-display font-bold text-2xl sm:text-4xl text-white group-hover:text-champagne-300 transition-colors max-w-4xl">
+                  ${escapeHtml(featuredArticle.title)}
+                </h2>
+                <p class="text-slate-300 text-base sm:text-lg mt-4 max-w-3xl leading-relaxed">
+                  ${escapeHtml(featuredArticle.excerpt)}
+                </p>
+
+                <div class="mt-6 pt-6 border-t border-white/10 flex items-center gap-2 text-sm font-mono text-champagne-400">
+                  <span>Read Full Dispatch</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </article>
+            ` : ''}
+
+            <!-- Remaining Articles Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              ${remainingArticles.map(art => `
+                <article onclick="openArticleReader('${art.id}')" class="group cursor-pointer glass-panel rounded-3xl p-6 border border-white/10 hover:border-champagne-400/40 transition-all flex flex-col justify-between hover:-translate-y-1">
+                  <div class="space-y-4">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="font-mono text-xs text-bio-emerald">${escapeHtml(art.category)}</span>
+                      <div class="flex items-center gap-2">
+                        <span class="font-mono text-xs text-slate-400">${escapeHtml(art.readTime)}</span>
+                        ${studioMode ? `
+                          <button onclick="event.stopPropagation(); openArticleEditor('${art.id}')" class="p-1.5 rounded-lg bg-obsidian-950 border border-white/15 text-champagne-300 hover:bg-champagne-400/20" title="Edit">
+                            <i data-lucide="edit-2" class="w-3 h-3"></i>
+                          </button>
+                          <button onclick="event.stopPropagation(); deleteArticle('${art.id}')" class="p-1.5 rounded-lg bg-obsidian-950 border border-white/15 text-rose-400 hover:bg-rose-500/20" title="Delete">
+                            <i data-lucide="trash-2" class="w-3 h-3"></i>
+                          </button>
+                        ` : ''}
+                      </div>
+                    </div>
+
+                    <h3 class="font-display font-bold text-xl text-white group-hover:text-champagne-300 transition-colors leading-snug">
+                      ${escapeHtml(art.title)}
+                    </h3>
+
+                    <p class="text-sm text-slate-300 leading-relaxed line-clamp-3">
+                      ${escapeHtml(art.excerpt)}
+                    </p>
+                  </div>
+
+                  <div class="pt-5 mt-6 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400">
+                    <span>${escapeHtml(art.date)}</span>
+                    <span class="text-champagne-400 flex items-center gap-1">Read <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                  </div>
+                </article>
+              `).join('')}
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function setJournalCategory(cat) {
+      activeJournalCategory = cat;
+      renderCurrentPage();
+    }
+
+    // ==================== 3. CULINARY LAB (RECIPE MINI-APP) VIEW ====================
+    function renderCulinaryPage() {
+      const categories = ['All', 'Neuro-Fuel', 'High-Protein', 'Anti-Inflammatory', 'Recovery'];
+      const filtered = appState.recipes.filter(r => {
+        const matchesCat = activeCulinaryCategory === 'All' || r.category.toLowerCase() === activeCulinaryCategory.toLowerCase();
+        const q = culinarySearchQuery.toLowerCase();
+        const matchesSearch = !q ||
+          r.title.toLowerCase().includes(q) ||
+          r.benefit.toLowerCase().includes(q) ||
+          r.ingredients.some(i => i.toLowerCase().includes(q));
+        return matchesCat && matchesSearch;
+      });
+
+      return `
+        <div class="space-y-8 animate-fade-in">
+          <!-- App Header -->
+          <div class="glass-panel rounded-3xl p-6 sm:p-9 border border-bio-emerald/25 bg-gradient-to-br from-obsidian-850 via-obsidian-900 to-bio-emerald/5">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div class="space-y-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bio-emerald/15 border border-bio-emerald/30 text-bio-emerald font-mono text-xs">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>CULINARY LAB // INTERACTIVE RECIPE APP</span>
+                </div>
+                <h1 class="font-display font-extrabold text-3xl sm:text-5xl text-white">Functional Nutrition Guide</h1>
+                <p class="text-slate-300 max-w-2xl text-sm sm:text-base">
+                  Precision recipes formulated for cognitive endurance, metabolic stability, and cellular recovery. Click any formulation to launch interactive Cook Mode.
+                </p>
+              </div>
+
+              <button onclick="openRecipeEditor()" class="self-start lg:self-auto px-5 py-3.5 rounded-2xl bg-bio-emerald hover:bg-emerald-400 text-obsidian-950 font-display font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition shrink-0">
+                <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                <span>Upload / Add Recipe</span>
+              </button>
+            </div>
+
+            <!-- App Search & Filter Toolbar -->
+            <div class="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+              <div class="relative flex-1 max-w-md">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input
+                  type="text"
+                  value="${escapeHtml(culinarySearchQuery)}"
+                  oninput="updateCulinarySearch(this.value)"
+                  placeholder="Search ingredients, recipes, or benefits..."
+                  class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-obsidian-950/90 border border-white/10 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-bio-emerald"
+                />
+              </div>
+
+              <div class="flex items-center gap-2 overflow-x-auto pb-1">
+                ${categories.map(cat => {
+                  const active = cat === activeCulinaryCategory;
+                  return `
+                    <button onclick="setCulinaryCategory('${cat}')" class="px-3.5 py-2 rounded-xl text-xs font-mono whitespace-nowrap transition ${active ? 'bg-bio-emerald/20 text-bio-emerald border border-bio-emerald/40 font-semibold' : 'bg-obsidian-950/70 text-slate-400 border border-white/10 hover:text-white'}">
+                      ${cat}
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe Grid -->
+          ${filtered.length === 0 ? `
+            <div class="glass-panel rounded-3xl p-12 text-center space-y-3">
+              <p class="text-slate-300 font-medium">No recipes match your current filter.</p>
+              <button onclick="activeCulinaryCategory='All'; culinarySearchQuery=''; renderCurrentPage();" class="px-4 py-2 rounded-xl bg-obsidian-800 text-xs font-mono text-bio-emerald border border-bio-emerald/30">Reset Filters</button>
+            </div>
+          ` : `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              ${filtered.map(rec => `
+                <div onclick="openRecipeSheet('${rec.id}')" class="group cursor-pointer glass-panel rounded-3xl overflow-hidden border border-white/10 hover:border-bio-emerald/45 transition-all hover:-translate-y-1 flex flex-col justify-between">
+                  <div>
+                    <!-- Visual Header (Image URL if provided, else stylish gradient) -->
+                    <div class="relative h-44 bg-gradient-to-br ${rec.gradient || 'from-emerald-500/20 to-obsidian-900'} p-6 flex flex-col justify-between border-b border-white/10 overflow-hidden">
+                      ${rec.imageUrl ? `<img src="${escapeHtml(rec.imageUrl)}" alt="${escapeHtml(rec.title)}" onerror="this.style.display='none'" class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover:scale-105 transition-transform duration-500" />` : ''}
+                      <div class="relative z-10 flex items-center justify-between">
+                        <span class="px-3 py-1 rounded-full bg-obsidian-950/85 backdrop-blur-md border border-white/15 font-mono text-xs text-bio-emerald">
+                          ${escapeHtml(rec.category)}
+                        </span>
+                        <div class="flex items-center gap-1.5">
+                          <span class="px-2.5 py-1 rounded-lg bg-obsidian-950/85 font-mono text-xs text-slate-200 flex items-center gap-1">
+                            <i data-lucide="clock" class="w-3 h-3 text-champagne-400"></i> ${escapeHtml(rec.prepTime)}
+                          </span>
+                          ${studioMode ? `
+                            <button onclick="event.stopPropagation(); openRecipeEditor('${rec.id}')" class="p-1.5 rounded-lg bg-obsidian-950/90 border border-white/20 text-champagne-300 hover:bg-champagne-400/20" title="Edit Recipe">
+                              <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteRecipe('${rec.id}')" class="p-1.5 rounded-lg bg-obsidian-950/90 border border-white/20 text-rose-400 hover:bg-rose-500/20" title="Delete Recipe">
+                              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                          ` : ''}
+                        </div>
+                      </div>
+
+                      <div class="relative z-10 flex items-center gap-2">
+                        <span class="px-2.5 py-1 rounded-lg bg-obsidian-950/80 font-mono text-[11px] text-champagne-300 border border-champagne-400/20">${escapeHtml(rec.calories)}</span>
+                        <span class="px-2.5 py-1 rounded-lg bg-obsidian-950/80 font-mono text-[11px] text-bio-cyan border border-bio-cyan/20">${escapeHtml(rec.protein)}</span>
+                      </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-6 space-y-3">
+                      <h3 class="font-display font-bold text-xl text-white group-hover:text-bio-emerald transition-colors">
+                        ${escapeHtml(rec.title)}
+                      </h3>
+                      <p class="text-sm text-slate-300 leading-relaxed">
+                        ${escapeHtml(rec.benefit)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="px-6 py-4 bg-obsidian-950/50 border-t border-white/5 flex items-center justify-between text-xs font-mono">
+                    <span class="text-slate-400">${rec.ingredients.length} Ingredients • ${escapeHtml(rec.difficulty)}</span>
+                    <span class="text-bio-emerald font-semibold flex items-center gap-1">Launch Cook Mode <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function setCulinaryCategory(cat) {
+      activeCulinaryCategory = cat;
+      renderCurrentPage();
+    }
+
+    function updateCulinarySearch(val) {
+      culinarySearchQuery = val;
+      renderCurrentPage();
+    }
+
+    // ==================== 4. ELEMENTS OF EVOLUTION (PERIODIC TABLE TRAINING HUB) ====================
+    function renderElementsPage() {
+      const completedSet = new Set(appState.completedElements);
+      const selectedEl = appState.elements.find(e => e.id === selectedElementId) || appState.elements[0];
+
+      return `
+        <div class="space-y-8 animate-fade-in">
+          <!-- Futuristic Header -->
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bio-cyan/10 border border-bio-cyan/30 text-bio-cyan font-mono text-xs">
+                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                <span>INTERACTIVE TRAINING MATRIX // V2.6</span>
+              </div>
+              <h1 class="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight">
+                Elements of <span class="text-transparent bg-clip-text bg-gradient-to-r from-champagne-300 via-bio-cyan to-bio-emerald">Evolution</span>
+              </h1>
+              <p class="text-slate-300 max-w-2xl text-sm sm:text-base">
+                Hover over any element tile to expand its holographic training window, or click to launch the full protocol module. Customize or add new elements anytime.
+              </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="px-4 py-2.5 rounded-2xl glass-panel border border-white/10 font-mono text-xs text-slate-300">
+                Progress: <span class="text-bio-emerald font-bold">${completedSet.size}/${appState.elements.length}</span> Mastered
+              </div>
+              <button onclick="openElementEditor()" class="px-4 py-2.5 rounded-2xl bg-bio-cyan hover:bg-cyan-300 text-obsidian-950 font-display font-bold text-sm flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                <span>Add Element</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Category Legend & Filter Bar -->
+          <div class="glass-panel rounded-2xl p-3 sm:p-4 border border-white/10 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="setElementCategory('All')" class="px-3 py-1.5 rounded-xl font-mono text-xs transition ${activeElementCategory === 'All' ? 'bg-white/15 text-white border border-white/30 font-semibold' : 'text-slate-400 hover:text-white border border-transparent'}">
+                All Elements (${appState.elements.length})
+              </button>
+              ${Object.entries(ELEMENT_CATEGORIES).map(([key, meta]) => {
+                const active = activeElementCategory === key;
+                return `
+                  <button onclick="setElementCategory('${key}')" class="px-3 py-1.5 rounded-xl font-mono text-xs border transition flex items-center gap-2 ${active ? meta.badgeClass + ' font-semibold scale-105' : 'bg-obsidian-950/60 border-white/5 text-slate-400 hover:text-slate-200'}">
+                    <span class="w-2 h-2 rounded-full bg-current"></span>
+                    <span>${meta.label}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <span class="font-mono text-[11px] text-slate-400 hidden xl:inline">TIP: Hover tiles to preview • Click to launch training</span>
+          </div>
+
+          <!-- PERIODIC TABLE MATRIX -->
+          <div class="relative glass-panel rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/10 overflow-visible">
+            <!-- Subtle Center Hologram Watermark -->
+            <div class="hidden xl:flex flex-col items-center justify-center pointer-events-none select-none absolute top-8 left-1/2 -translate-x-1/2 text-center opacity-40">
+              <span class="font-mono text-[10px] tracking-[0.35em] text-champagne-400 uppercase">Periodic Matrix of Human Potential</span>
+              <span class="font-mono text-[10px] text-slate-500 mt-1">Hover Element Tile to Expand Protocol Window</span>
+            </div>
+
+            <div class="periodic-grid pt-2 xl:pt-10">
+              ${appState.elements.map(el => {
+                const catMeta = ELEMENT_CATEGORIES[el.category] || ELEMENT_CATEGORIES.cognitive;
+                const isDimmed = activeElementCategory !== 'All' && el.category !== activeElementCategory;
+                const isCompleted = completedSet.has(el.id);
+                const isRightSide = el.col >= 13;
+
+                return `
+                  <div
+                    style="grid-column: ${el.col}; grid-row: ${el.row};"
+                    onmouseenter="selectPreviewElement('${el.id}')"
+                    onclick="openTrainingModal('${el.id}')"
+                    tabindex="0"
+                    class="periodic-tile cursor-pointer rounded-2xl bg-gradient-to-b ${catMeta.tileClass} border p-2.5 sm:p-3 flex flex-col justify-between min-h-[84px] sm:min-h-[92px] select-none ${isDimmed ? 'opacity-25 grayscale' : 'opacity-100'}"
+                  >
+                    <!-- Top Atomic Number & Completion Status -->
+                    <div class="flex items-center justify-between text-[10px] font-mono">
+                      <span class="text-slate-300 font-semibold">${String(el.number).padStart(2, '0')}</span>
+                      <div class="flex items-center gap-1">
+                        ${isCompleted ? `<i data-lucide="check-circle-2" class="w-3 h-3 text-bio-emerald"></i>` : ''}
+                        ${studioMode ? `
+                          <button onclick="event.stopPropagation(); openElementEditor('${el.id}')" class="p-0.5 rounded bg-obsidian-950/80 text-champagne-300 hover:text-white" title="Edit Element">
+                            <i data-lucide="edit-2" class="w-2.5 h-2.5"></i>
+                          </button>
+                        ` : ''}
+                      </div>
+                    </div>
+
+                    <!-- Chemical-style 2-Letter Symbol -->
+                    <div class="my-0.5">
+                      <div class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-none">
+                        ${escapeHtml(el.symbol)}
+                      </div>
+                      <div class="text-[10px] sm:text-[11px] font-medium text-slate-200 truncate mt-1">
+                        ${escapeHtml(el.name)}
+                      </div>
+                    </div>
+
+                    <!-- Bottom Tag -->
+                    <div class="text-[9px] font-mono ${catMeta.accentText} truncate">
+                      ${escapeHtml(el.level)}
+                    </div>
+
+                    <!-- HOVER EXPANSION WINDOW (Desktop Floating Holographic Card) -->
+                    <div
+                      onclick="event.stopPropagation(); openTrainingModal('${el.id}')"
+                      class="element-hover-card absolute top-full mt-2 ${isRightSide ? 'right-0' : 'left-0'} w-80 rounded-2xl bg-obsidian-900/95 backdrop-blur-xl border border-champagne-400/50 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.9)] p-5 z-50 text-left"
+                    >
+                      <div class="flex items-start justify-between gap-2 pb-3 border-b border-white/10">
+                        <div>
+                          <div class="flex items-center gap-2">
+                            <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-white/10 text-white">${String(el.number).padStart(2, '0')} • ${escapeHtml(el.symbol)}</span>
+                            <span class="font-mono text-[11px] ${catMeta.accentText}">${catMeta.label}</span>
+                          </div>
+                          <h4 class="font-display font-bold text-lg text-white mt-1.5">${escapeHtml(el.name)}</h4>
+                        </div>
+                        ${studioMode ? `
+                          <button onclick="event.stopPropagation(); openElementEditor('${el.id}')" class="p-1.5 rounded-lg bg-obsidian-800 border border-white/15 text-champagne-300 hover:bg-champagne-400/20" title="Edit Element">
+                            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                          </button>
+                        ` : ''}
+                      </div>
+
+                      <p class="text-xs text-slate-300 leading-relaxed mt-3">
+                        ${escapeHtml(el.summary)}
+                      </p>
+
+                      <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                        <span>${escapeHtml(el.duration)}</span>
+                        <span>Tier: ${escapeHtml(el.level)}</span>
+                      </div>
+
+                      <div class="mt-3 flex items-center gap-2">
+                        <button onclick="event.stopPropagation(); openTrainingModal('${el.id}')" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-champagne-400 to-champagne-500 text-obsidian-950 font-display font-bold text-xs flex items-center justify-center gap-1.5 hover:brightness-110 transition">
+                          <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                          <span>Launch Training</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Anchored Live HUD Inspector (Great for Mobile/Tablet & Quick Inspection) -->
+          ${selectedEl ? (() => {
+            const catMeta = ELEMENT_CATEGORIES[selectedEl.category] || ELEMENT_CATEGORIES.cognitive;
+            const isCompleted = completedSet.has(selectedEl.id);
+            return `
+              <div id="element-hud-inspector" class="glass-panel rounded-3xl p-6 sm:p-8 border border-white/10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div class="flex items-start gap-5">
+                  <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${catMeta.tileClass} border flex flex-col items-center justify-center shrink-0">
+                    <span class="font-mono text-[10px] text-slate-300">${String(selectedEl.number).padStart(2, '0')}</span>
+                    <span class="font-display font-extrabold text-2xl sm:text-3xl text-white">${escapeHtml(selectedEl.symbol)}</span>
+                  </div>
+                  <div class="space-y-1.5">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-mono border ${catMeta.badgeClass}">${catMeta.label}</span>
+                      <span class="font-mono text-xs text-slate-400">${escapeHtml(selectedEl.duration)} • ${escapeHtml(selectedEl.level)}</span>
+                      ${isCompleted ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-bio-emerald/15 text-bio-emerald border border-bio-emerald/30">Completed</span>` : ''}
+                    </div>
+                    <h3 class="font-display font-bold text-xl sm:text-2xl text-white">${escapeHtml(selectedEl.name)}</h3>
+                    <p class="text-sm text-slate-300 max-w-3xl">${escapeHtml(selectedEl.summary)}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 w-full lg:w-auto justify-end shrink-0">
+                  <button onclick="openElementEditor('${selectedEl.id}')" class="px-4 py-3 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 border border-white/15 text-xs font-mono text-slate-200 flex items-center gap-1.5 transition">
+                    <i data-lucide="edit-3" class="w-3.5 h-3.5 text-champagne-400"></i>
+                    <span>Customize</span>
+                  </button>
+                  <button onclick="openTrainingModal('${selectedEl.id}')" class="px-5 py-3 rounded-xl bg-champagne-400 hover:bg-champagne-300 text-obsidian-950 font-display font-bold text-sm flex items-center gap-2 transition">
+                    <i data-lucide="play-circle" class="w-4 h-4"></i>
+                    <span>Open Training Module</span>
+                  </button>
+                </div>
+              </div>
+            `;
+          })() : ''}
+        </div>
+      `;
+    }
+
+    function setElementCategory(cat) {
+      activeElementCategory = cat;
+      renderCurrentPage();
+    }
+
+    function selectPreviewElement(id) {
+      if (selectedElementId === id) return;
+      selectedElementId = id;
+      // Update HUD inspector without re-rendering the entire periodic grid so hover states remain fluid
+      const inspector = document.getElementById('element-hud-inspector');
+      const el = appState.elements.find(e => e.id === id);
+      if (!inspector || !el) return;
+      const catMeta = ELEMENT_CATEGORIES[el.category] || ELEMENT_CATEGORIES.cognitive;
+      const isCompleted = appState.completedElements.includes(el.id);
+
+      inspector.innerHTML = `
+        <div class="flex items-start gap-5">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br ${catMeta.tileClass} border flex flex-col items-center justify-center shrink-0">
+            <span class="font-mono text-[10px] text-slate-300">${String(el.number).padStart(2, '0')}</span>
+            <span class="font-display font-extrabold text-2xl sm:text-3xl text-white">${escapeHtml(el.symbol)}</span>
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-mono border ${catMeta.badgeClass}">${catMeta.label}</span>
+              <span class="font-mono text-xs text-slate-400">${escapeHtml(el.duration)} • ${escapeHtml(el.level)}</span>
+              ${isCompleted ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-mono bg-bio-emerald/15 text-bio-emerald border border-bio-emerald/30">Completed</span>` : ''}
+            </div>
+            <h3 class="font-display font-bold text-xl sm:text-2xl text-white">${escapeHtml(el.name)}</h3>
+            <p class="text-sm text-slate-300 max-w-3xl">${escapeHtml(el.summary)}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 w-full lg:w-auto justify-end shrink-0">
+          <button onclick="openElementEditor('${el.id}')" class="px-4 py-3 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 border border-white/15 text-xs font-mono text-slate-200 flex items-center gap-1.5 transition">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5 text-champagne-400"></i>
+            <span>Customize</span>
+          </button>
+          <button onclick="openTrainingModal('${el.id}')" class="px-5 py-3 rounded-xl bg-champagne-400 hover:bg-champagne-300 text-obsidian-950 font-display font-bold text-sm flex items-center gap-2 transition">
+            <i data-lucide="play-circle" class="w-4 h-4"></i>
+            <span>Open Training Module</span>
+          </button>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    // ==================== MODALS: READERS, TRAINING WORKSPACE & CREATORS ====================
+    function openModal(htmlContent, maxWidthClass = 'max-w-3xl') {
+      const backdrop = document.getElementById('modal-backdrop');
+      const container = document.getElementById('modal-container');
+      container.className = `glass-panel w-full ${maxWidthClass} rounded-3xl border border-white/15 shadow-2xl overflow-hidden my-auto animate-pop-in`;
+      container.innerHTML = htmlContent;
+      backdrop.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      document.getElementById('modal-backdrop').classList.add('hidden');
+    }
+
+    document.getElementById('modal-backdrop').addEventListener('click', (e) => {
+      if (e.target.id === 'modal-backdrop') closeModal();
+    });
+
+    // --- Article Reader Modal ---
+    function openArticleReader(id) {
+      const art = appState.articles.find(a => a.id === id);
+      if (!art) return;
+
+      openModal(`
+        <div class="p-6 sm:p-10 space-y-6 max-h-[85vh] overflow-y-auto">
+          <div class="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+            <div class="flex items-center gap-3 font-mono text-xs">
+              <span class="text-bio-emerald">${escapeHtml(art.category)}</span>
+              <span class="text-slate-500">•</span>
+              <span class="text-slate-400">${escapeHtml(art.date)}</span>
+              <span class="text-slate-500">•</span>
+              <span class="text-slate-400">${escapeHtml(art.readTime)}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="openArticleEditor('${art.id}')" class="px-3 py-1.5 rounded-xl bg-obsidian-850 border border-white/10 text-xs font-mono text-champagne-300 hover:border-champagne-400/50">Edit</button>
+              <button onclick="closeModal()" class="p-2 rounded-xl bg-obsidian-850 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+          <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-white leading-tight">${escapeHtml(art.title)}</h2>
+          <p class="text-base sm:text-lg text-champagne-300/90 font-medium leading-relaxed border-l-2 border-champagne-400 pl-4">
+            ${escapeHtml(art.excerpt)}
+          </p>
+
+          <div class="space-y-4 text-slate-200 leading-relaxed text-base pt-2">
+            ${formatRichText(art.content)}
+          </div>
+        </div>
+      `, 'max-w-3xl');
+    }
+
+    // --- Recipe Interactive Cook Mode Sheet ---
+    function openRecipeSheet(id) {
+      const rec = appState.recipes.find(r => r.id === id);
+      if (!rec) return;
+
+      openModal(`
+        <div class="max-h-[88vh] overflow-y-auto">
+          <div class="bg-gradient-to-r ${rec.gradient || 'from-emerald-500/25 to-obsidian-900'} p-6 sm:p-8 border-b border-white/10 flex items-start justify-between gap-4">
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+                <span class="px-2.5 py-0.5 rounded-full bg-obsidian-950/80 text-bio-emerald border border-bio-emerald/30">${escapeHtml(rec.category)}</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-obsidian-950/80 text-champagne-300">${escapeHtml(rec.prepTime)}</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-obsidian-950/80 text-slate-200">${escapeHtml(rec.calories)} • ${escapeHtml(rec.protein)}</span>
+              </div>
+              <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-white">${escapeHtml(rec.title)}</h2>
+              <p class="text-sm text-slate-200">${escapeHtml(rec.benefit)}</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="openRecipeEditor('${rec.id}')" class="px-3 py-1.5 rounded-xl bg-obsidian-950/80 border border-white/15 text-xs font-mono text-champagne-300">Edit</button>
+              <button onclick="closeModal()" class="p-2 rounded-xl bg-obsidian-950/80 text-slate-300 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8">
+            <!-- Checkable Ingredients -->
+            <div class="md:col-span-5 space-y-4">
+              <h3 class="font-mono text-xs uppercase tracking-wider text-champagne-400">Ingredients Checklist</h3>
+              <ul class="space-y-2.5">
+                ${rec.ingredients.map((ing, idx) => `
+                  <li>
+                    <label class="flex items-start gap-3 p-2.5 rounded-xl bg-obsidian-950/60 border border-white/5 hover:border-bio-emerald/30 cursor-pointer transition">
+                      <input type="checkbox" class="mt-1 rounded accent-emerald-500" onchange="this.nextElementSibling.classList.toggle('line-through'); this.nextElementSibling.classList.toggle('text-slate-500')" />
+                      <span class="text-sm text-slate-200 transition">${escapeHtml(ing)}</span>
+                    </label>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+
+            <!-- Step-by-Step Instructions -->
+            <div class="md:col-span-7 space-y-4">
+              <h3 class="font-mono text-xs uppercase tracking-wider text-bio-emerald">Preparation Protocol</h3>
+              <ol class="space-y-4">
+                ${rec.steps.map((step, i) => `
+                  <li class="flex gap-4 p-4 rounded-2xl bg-obsidian-950/50 border border-white/5">
+                    <span class="w-7 h-7 rounded-lg bg-bio-emerald/15 border border-bio-emerald/30 text-bio-emerald font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                      ${i + 1}
+                    </span>
+                    <p class="text-sm text-slate-200 leading-relaxed">${escapeHtml(step)}</p>
+                  </li>
+                `).join('')}
+              </ol>
+            </div>
+          </div>
+        </div>
+      `, 'max-w-4xl');
+    }
+
+    // --- Interactive Training Module Modal (Elements of Evolution) ---
+    function openTrainingModal(id) {
+      const el = appState.elements.find(e => e.id === id);
+      if (!el) return;
+      const catMeta = ELEMENT_CATEGORIES[el.category] || ELEMENT_CATEGORIES.cognitive;
+      const isCompleted = appState.completedElements.includes(el.id);
+
+      openModal(`
+        <div class="max-h-[88vh] overflow-y-auto">
+          <div class="p-6 sm:p-8 border-b border-white/10 bg-gradient-to-r ${catMeta.tileClass} flex items-start justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 rounded-2xl bg-obsidian-950/90 border border-white/20 flex flex-col items-center justify-center shrink-0">
+                <span class="font-mono text-[10px] text-slate-400">${String(el.number).padStart(2, '0')}</span>
+                <span class="font-display font-extrabold text-2xl text-white">${escapeHtml(el.symbol)}</span>
+              </div>
+              <div>
+                <div class="flex flex-wrap items-center gap-2 font-mono text-xs">
+                  <span class="${catMeta.accentText} font-semibold">${catMeta.label}</span>
+                  <span class="text-slate-500">•</span>
+                  <span class="text-slate-300">${escapeHtml(el.duration)}</span>
+                  <span class="text-slate-500">•</span>
+                  <span class="text-slate-300">Tier: ${escapeHtml(el.level)}</span>
+                </div>
+                <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-white mt-1">${escapeHtml(el.name)}</h2>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="openElementEditor('${el.id}')" class="px-3 py-1.5 rounded-xl bg-obsidian-950/80 border border-white/15 text-xs font-mono text-champagne-300 hover:border-champagne-400">Edit Element</button>
+              <button onclick="closeModal()" class="p-2 rounded-xl bg-obsidian-950/80 text-slate-300 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-6 sm:p-8 space-y-6">
+            <!-- Learning Objectives Box -->
+            <div class="rounded-2xl bg-obsidian-950/80 border border-white/10 p-5 space-y-3">
+              <h3 class="font-mono text-xs uppercase tracking-wider text-champagne-400">Core Outcomes & Protocol Objectives</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                ${el.objectives.map(obj => `
+                  <li class="flex items-start gap-2.5 text-sm text-slate-200">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-bio-emerald shrink-0 mt-0.5"></i>
+                    <span>${escapeHtml(obj)}</span>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+
+            <!-- Main Lesson Content -->
+            <div class="space-y-4 text-slate-200 leading-relaxed text-base">
+              ${formatRichText(el.content)}
+            </div>
+
+            <!-- Action Footer -->
+            <div class="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+              <button onclick="toggleElementCompletion('${el.id}')" class="px-5 py-3 rounded-xl font-display font-bold text-sm flex items-center gap-2 transition ${isCompleted ? 'bg-bio-emerald/20 text-bio-emerald border border-bio-emerald/40' : 'bg-bio-emerald text-obsidian-950 hover:bg-emerald-400'}">
+                <i data-lucide="${isCompleted ? 'check-circle-2' : 'circle'}" class="w-4 h-4"></i>
+                <span>${isCompleted ? 'Module Mastered (Click to Unmark)' : 'Mark Training Module Complete'}</span>
+              </button>
+
+              <button onclick="closeModal()" class="px-5 py-3 rounded-xl bg-obsidian-850 text-slate-300 hover:text-white text-sm font-medium border border-white/10">
+                Return to Matrix
+              </button>
+            </div>
+          </div>
+        </div>
+      `, 'max-w-3xl');
+    }
+
+    function toggleElementCompletion(id) {
+      const idx = appState.completedElements.indexOf(id);
+      if (idx >= 0) {
+        appState.completedElements.splice(idx, 1);
+      } else {
+        appState.completedElements.push(id);
+        showToast('Training module marked as mastered!', 'success');
+      }
+      saveState();
+      renderCurrentPage();
+      openTrainingModal(id);
+    }
+
+    // ==================== STUDIO EDITORS (CREATE & UPDATE FORMS) ====================
+
+    // 1. Home Hero & Manifesto Editor
+    function openHomeHeroEditor() {
+      const h = appState.home;
+      openModal(`
+        <form onsubmit="saveHomeHero(event)" class="p-6 sm:p-8 space-y-5 max-h-[88vh] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-white/10 pb-4">
+            <h2 class="font-display font-bold text-xl text-white">Customize Home Page Hero & Manifesto</h2>
+            <button type="button" onclick="closeModal()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Eyebrow Tag</label>
+              <input name="eyebrow" value="${escapeHtml(h.eyebrow)}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Main Headline</label>
+              <input name="headline" value="${escapeHtml(h.headline)}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Subheadline</label>
+              <textarea name="subheadline" rows="2" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${escapeHtml(h.subheadline)}</textarea>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Primary CTA Button</label>
+                <input name="primaryCta" value="${escapeHtml(h.primaryCta)}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Secondary CTA Button</label>
+                <input name="secondaryCta" value="${escapeHtml(h.secondaryCta)}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Manifesto Title</label>
+              <input name="manifestoTitle" value="${escapeHtml(h.manifestoTitle)}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Manifesto Paragraph</label>
+              <textarea name="manifestoBody" rows="3" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${escapeHtml(h.manifestoBody)}</textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <button type="button" onclick="closeModal()" class="px-4 py-2.5 rounded-xl bg-obsidian-850 text-sm text-slate-300">Cancel</button>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-champagne-400 text-obsidian-950 font-bold text-sm">Save Home Changes</button>
+          </div>
+        </form>
+      `);
+    }
+
+    function saveHomeHero(e) {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      appState.home.eyebrow = fd.get('eyebrow');
+      appState.home.headline = fd.get('headline');
+      appState.home.subheadline = fd.get('subheadline');
+      appState.home.primaryCta = fd.get('primaryCta');
+      appState.home.secondaryCta = fd.get('secondaryCta');
+      appState.home.manifestoTitle = fd.get('manifestoTitle');
+      appState.home.manifestoBody = fd.get('manifestoBody');
+      saveState(true);
+      closeModal();
+      renderCurrentPage();
+    }
+
+    // 2. Journal Article Composer / Editor
+    function openArticleEditor(id = null) {
+      const existing = id ? appState.articles.find(a => a.id === id) : null;
+      openModal(`
+        <form onsubmit="saveArticle(event, '${id || ''}')" class="p-6 sm:p-8 space-y-5 max-h-[88vh] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-white/10 pb-4">
+            <h2 class="font-display font-bold text-xl text-white">${existing ? 'Edit Journal Entry' : 'Compose New Journal Entry'}</h2>
+            <button type="button" onclick="closeModal()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Article Title</label>
+              <input name="title" value="${existing ? escapeHtml(existing.title) : ''}" placeholder="e.g., Circadian Light Hygiene for Deep Cognitive Output" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Category</label>
+                <input name="category" value="${existing ? escapeHtml(existing.category) : 'Neuroscience & Mindset'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Read Time</label>
+                <input name="readTime" value="${existing ? escapeHtml(existing.readTime) : '5 min read'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div class="flex items-end pb-2">
+                <label class="flex items-center gap-2 text-sm text-slate-200 cursor-pointer">
+                  <input type="checkbox" name="featured" ${existing?.featured ? 'checked' : ''} class="accent-amber-400" />
+                  <span>Feature at Top</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Short Excerpt</label>
+              <textarea name="excerpt" rows="2" required placeholder="A compelling 1-2 sentence summary..." class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${existing ? escapeHtml(existing.excerpt) : ''}</textarea>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Full Essay Body (Use ### for subheadings)</label>
+              <textarea name="content" rows="8" required placeholder="Write your full post here..." class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white font-sans">${existing ? escapeHtml(existing.content) : ''}</textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <button type="button" onclick="closeModal()" class="px-4 py-2.5 rounded-xl bg-obsidian-850 text-sm text-slate-300">Cancel</button>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-champagne-400 text-obsidian-950 font-bold text-sm">Publish Entry</button>
+          </div>
+        </form>
+      `);
+    }
+
+    function saveArticle(e, id) {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const isFeatured = fd.get('featured') === 'on';
+      if (isFeatured) {
+        appState.articles.forEach(a => a.featured = false);
+      }
+
+      const payload = {
+        id: id || 'art-' + Date.now(),
+        title: fd.get('title'),
+        category: fd.get('category'),
+        readTime: fd.get('readTime'),
+        featured: isFeatured,
+        date: id ? (appState.articles.find(a => a.id === id)?.date || 'Nov 16, 2026') : new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+        excerpt: fd.get('excerpt'),
+        content: fd.get('content')
+      };
+
+      if (id) {
+        const idx = appState.articles.findIndex(a => a.id === id);
+        if (idx >= 0) appState.articles[idx] = payload;
+      } else {
+        appState.articles.unshift(payload);
+      }
+
+      saveState(true);
+      closeModal();
+      navigateTo('journal');
+    }
+
+    function deleteArticle(id) {
+      appState.articles = appState.articles.filter(a => a.id !== id);
+      saveState(true);
+      renderCurrentPage();
+    }
+
+    // 3. Culinary Lab Recipe Creator / Editor
+    function openRecipeEditor(id = null) {
+      const existing = id ? appState.recipes.find(r => r.id === id) : null;
+      openModal(`
+        <form onsubmit="saveRecipe(event, '${id || ''}')" class="p-6 sm:p-8 space-y-5 max-h-[88vh] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-white/10 pb-4">
+            <h2 class="font-display font-bold text-xl text-white">${existing ? 'Edit Culinary Formulation' : 'Upload New Recipe to Culinary Lab'}</h2>
+            <button type="button" onclick="closeModal()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Recipe Title</label>
+              <input name="title" value="${existing ? escapeHtml(existing.title) : ''}" placeholder="e.g., Matcha Lion's Mane Focus Latte" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Goal Category</label>
+                <select name="category" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">
+                  ${['Neuro-Fuel', 'High-Protein', 'Anti-Inflammatory', 'Recovery'].map(c => `<option value="${c}" ${existing?.category === c ? 'selected' : ''}>${c}</option>`).join('')}
+                </select>
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Prep Time</label>
+                <input name="prepTime" value="${existing ? escapeHtml(existing.prepTime) : '20 mins'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Difficulty</label>
+                <input name="difficulty" value="${existing ? escapeHtml(existing.difficulty) : 'Easy'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Calories</label>
+                <input name="calories" value="${existing ? escapeHtml(existing.calories) : '450 kcal'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Protein / Macro Badge</label>
+                <input name="protein" value="${existing ? escapeHtml(existing.protein) : '35g Protein'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Optional Photo URL</label>
+                <input name="imageUrl" value="${existing ? escapeHtml(existing.imageUrl || '') : ''}" placeholder="https://..." class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Functional Health Benefit</label>
+              <input name="benefit" value="${existing ? escapeHtml(existing.benefit) : ''}" placeholder="Why this formulation supports performance..." required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Ingredients (One per line)</label>
+                <textarea name="ingredients" rows="6" required placeholder="1 cup ceremonial matcha&#10;1 tsp lion's mane extract..." class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${existing ? escapeHtml(existing.ingredients.join('\n')) : ''}</textarea>
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Preparation Steps (One per line)</label>
+                <textarea name="steps" rows="6" required placeholder="Whisk matcha with warm water...&#10;Froth almond milk..." class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${existing ? escapeHtml(existing.steps.join('\n')) : ''}</textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+            <button type="button" onclick="closeModal()" class="px-4 py-2.5 rounded-xl bg-obsidian-850 text-sm text-slate-300">Cancel</button>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-bio-emerald text-obsidian-950 font-bold text-sm">Save Recipe</button>
+          </div>
+        </form>
+      `, 'max-w-4xl');
+    }
+
+    function saveRecipe(e, id) {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const ingredients = fd.get('ingredients').split('\n').map(s => s.trim()).filter(Boolean);
+      const steps = fd.get('steps').split('\n').map(s => s.trim()).filter(Boolean);
+
+      const payload = {
+        id: id || 'rec-' + Date.now(),
+        title: fd.get('title'),
+        category: fd.get('category'),
+        prepTime: fd.get('prepTime'),
+        difficulty: fd.get('difficulty'),
+        calories: fd.get('calories'),
+        protein: fd.get('protein'),
+        imageUrl: fd.get('imageUrl').trim(),
+        benefit: fd.get('benefit'),
+        gradient: id ? (appState.recipes.find(r => r.id === id)?.gradient || 'from-emerald-500/25 to-obsidian-900') : 'from-emerald-500/25 via-cyan-500/15 to-obsidian-900',
+        ingredients,
+        steps
+      };
+
+      if (id) {
+        const idx = appState.recipes.findIndex(r => r.id === id);
+        if (idx >= 0) appState.recipes[idx] = payload;
+      } else {
+        appState.recipes.unshift(payload);
+      }
+
+      saveState(true);
+      closeModal();
+      navigateTo('culinary');
+    }
+
+    function deleteRecipe(id) {
+      appState.recipes = appState.recipes.filter(r => r.id !== id);
+      saveState(true);
+      renderCurrentPage();
+    }
+
+    // 4. Periodic Table Element Creator / Editor
+    function openElementEditor(id = null) {
+      const existing = id ? appState.elements.find(e => e.id === id) : null;
+      const nextNum = existing ? existing.number : (Math.max(0, ...appState.elements.map(e => e.number)) + 1);
+
+      openModal(`
+        <form onsubmit="saveElement(event, '${id || ''}')" class="p-6 sm:p-8 space-y-5 max-h-[88vh] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-white/10 pb-4">
+            <h2 class="font-display font-bold text-xl text-white">${existing ? 'Customize Training Element' : 'Add New Element to Periodic Matrix'}</h2>
+            <button type="button" onclick="closeModal()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+
+          <div class="space-y-4">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Atomic #</label>
+                <input type="number" name="number" value="${nextNum}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white font-mono" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Symbol (1-3 chars)</label>
+                <input name="symbol" maxlength="3" value="${existing ? escapeHtml(existing.symbol) : ''}" placeholder="e.g., Zen" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white font-display font-bold" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Grid Row (1-7)</label>
+                <input type="number" min="1" max="9" name="row" value="${existing ? existing.row : 4}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white font-mono" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Grid Col (1-18)</label>
+                <input type="number" min="1" max="18" name="col" value="${existing ? existing.col : 3}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white font-mono" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Element / Training Name</label>
+                <input name="name" value="${existing ? escapeHtml(existing.name) : ''}" placeholder="e.g., Executive Presence" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Domain Category</label>
+                <select name="category" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">
+                  ${Object.entries(ELEMENT_CATEGORIES).map(([k, v]) => `<option value="${k}" ${existing?.category === k ? 'selected' : ''}>${v.label}</option>`).join('')}
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Module Duration</label>
+                <input name="duration" value="${existing ? escapeHtml(existing.duration) : '35 Min Module'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-slate-400 mb-1">Tier / Level</label>
+                <input name="level" value="${existing ? escapeHtml(existing.level) : 'Core'}" required class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Hover Window Summary</label>
+              <textarea name="summary" rows="2" required placeholder="Brief summary displayed in the hover preview window..." class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${existing ? escapeHtml(existing.summary) : ''}</textarea>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Key Learning Objectives (One per line)</label>
+              <textarea name="objectives" rows="3" required placeholder="Objective 1&#10;Objective 2" class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${existing ? escapeHtml(existing.objectives.join('\n')) : ''}</textarea>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-slate-400 mb-1">Full Training Module Curriculum</label>
+              <textarea name="content" rows="5" required placeholder="Detailed lesson notes, drills, and frameworks..." class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian-950 border border-white/15 text-sm text-white">${existing ? escapeHtml(existing.content) : ''}</textarea>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between pt-4 border-t border-white/10">
+            ${existing ? `
+              <button type="button" onclick="deleteElement('${existing.id}')" class="px-4 py-2.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-mono hover:bg-rose-500/25">Delete Element</button>
+            ` : '<div></div>'}
+            <div class="flex gap-3">
+              <button type="button" onclick="closeModal()" class="px-4 py-2.5 rounded-xl bg-obsidian-850 text-sm text-slate-300">Cancel</button>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-bio-cyan text-obsidian-950 font-bold text-sm">Save Element</button>
+            </div>
+          </div>
+        </form>
+      `, 'max-w-3xl');
+    }
+
+    function saveElement(e, id) {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const objectives = fd.get('objectives').split('\n').map(s => s.trim()).filter(Boolean);
+
+      const payload = {
+        id: id || 'el-' + Date.now(),
+        number: parseInt(fd.get('number'), 10) || 1,
+        symbol: fd.get('symbol').trim(),
+        name: fd.get('name').trim(),
+        category: fd.get('category'),
+        row: parseInt(fd.get('row'), 10) || 4,
+        col: parseInt(fd.get('col'), 10) || 3,
+        duration: fd.get('duration').trim(),
+        level: fd.get('level').trim(),
+        summary: fd.get('summary').trim(),
+        objectives,
+        content: fd.get('content').trim()
+      };
+
+      if (id) {
+        const idx = appState.elements.findIndex(el => el.id === id);
+        if (idx >= 0) appState.elements[idx] = payload;
+      } else {
+        appState.elements.push(payload);
+      }
+
+      selectedElementId = payload.id;
+      saveState(true);
+      closeModal();
+      navigateTo('elements');
+    }
+
+    function deleteElement(id) {
+      appState.elements = appState.elements.filter(el => el.id !== id);
+      if (selectedElementId === id) {
+        selectedElementId = appState.elements[0]?.id || null;
+      }
+      saveState(true);
+      closeModal();
+      renderCurrentPage();
+    }
+
+    // ==================== DATA EXPORT / IMPORT / BACKUP MODAL ====================
+    function openDataManagerModal() {
+      const jsonString = JSON.stringify(appState, null, 2);
+      openModal(`
+        <div class="p-6 sm:p-8 space-y-6 max-h-[88vh] overflow-y-auto">
+          <div class="flex items-center justify-between border-b border-white/10 pb-4">
+            <div>
+              <h2 class="font-display font-bold text-xl text-white">Studio Data & Backup Manager</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Export your customized articles, recipes, and periodic table elements as JSON.</p>
+            </div>
+            <button onclick="closeModal()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button onclick="downloadJsonBackup()" class="p-4 rounded-2xl bg-champagne-400/15 hover:bg-champagne-400/25 border border-champagne-400/40 text-left space-y-1 transition">
+              <div class="flex items-center gap-2 text-champagne-300 font-display font-bold text-sm">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Download JSON</span>
+              </div>
+              <p class="text-xs text-slate-300">Save a backup file to your computer.</p>
+            </button>
+
+            <label class="cursor-pointer p-4 rounded-2xl bg-bio-cyan/15 hover:bg-bio-cyan/25 border border-bio-cyan/40 text-left space-y-1 transition">
+              <div class="flex items-center gap-2 text-bio-cyan font-display font-bold text-sm">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                <span>Import JSON</span>
+              </div>
+              <p class="text-xs text-slate-300">Restore from a previously saved file.</p>
+              <input type="file" accept=".json" onchange="handleJsonImport(event)" class="hidden" />
+            </label>
+
+            <button onclick="resetToFactoryDefaults()" class="p-4 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-left space-y-1 transition">
+              <div class="flex items-center gap-2 text-rose-300 font-display font-bold text-sm">
+                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                <span>Reset Defaults</span>
+              </div>
+              <p class="text-xs text-slate-300">Restore original starter content.</p>
+            </button>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs text-slate-400">Live Site State JSON Preview</span>
+              <button onclick="copyJsonToClipboard()" class="text-xs font-mono text-champagne-400 hover:underline">Copy JSON</button>
+            </div>
+            <textarea id="json-export-box" readonly rows="8" class="w-full p-3.5 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-slate-300">${escapeHtml(jsonString)}</textarea>
+          </div>
+        </div>
+      `, 'max-w-3xl');
+    }
+
+    function downloadJsonBackup() {
+      const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute('href', dataStr);
+      a.setAttribute('download', 'evolve-optimal-site-data.json');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Downloaded evolve-optimal-site-data.json', 'success');
+    }
+
+    function copyJsonToClipboard() {
+      const box = document.getElementById('json-export-box');
+      if (!box) return;
+      box.select();
+      document.execCommand('copy');
+      showToast('JSON copied to clipboard', 'success');
+    }
+
+    function handleJsonImport(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          appState = { ...structuredClone(DEFAULT_SITE_DATA), ...parsed };
+          saveState();
+          closeModal();
+          renderCurrentPage();
+          showToast('Site data imported successfully!', 'success');
+        } catch (err) {
+          showToast('Invalid JSON file format', 'error');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetToFactoryDefaults() {
+      appState = structuredClone(DEFAULT_SITE_DATA);
+      localStorage.removeItem(STORAGE_KEY);
+      closeModal();
+      renderCurrentPage();
+      showToast('Restored default Evolve Optimal content', 'info');
+    }
+
+    // ==================== UTILITIES ====================
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function formatRichText(raw) {
+      return escapeHtml(raw)
+        .split('\n\n')
+        .map(block => {
+          if (block.startsWith('### ')) {
+            return `<h3 class="font-display font-bold text-xl text-white pt-3">${block.replace('### ', '')}</h3>`;
+          }
+          return `<p>${block.replace(/\n/g, '<br/>')}</p>`;
+        })
+        .join('');
+    }
+
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const colors = {
+        success: 'border-bio-emerald/50 bg-obsidian-900 text-bio-emerald',
+        error: 'border-rose-500/50 bg-obsidian-900 text-rose-300',
+        info: 'border-champagne-400/50 bg-obsidian-900 text-champagne-300'
+      };
+      const el = document.createElement('div');
+      el.className = `pointer-events-auto px-4 py-3 rounded-2xl border shadow-xl font-mono text-xs flex items-center gap-2.5 animate-pop-in ${colors[type] || colors.info}`;
+      el.innerHTML = `<span class="w-2 h-2 rounded-full bg-current"></span><span>${escapeHtml(message)}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => el.remove(), 300);
+      }, 3200);
+    }
+
+    // ==================== INITIALIZE APPLICATION ====================
+    window.addEventListener('DOMContentLoaded', () => {
+      updateNavHighlight();
+      renderCurrentPage();
+    });
+  </script>
+</body>
+</html>
