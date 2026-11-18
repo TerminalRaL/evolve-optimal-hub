@@ -278,6 +278,9 @@
         <button onclick="openElementEditor()" class="px-3 py-1.5 rounded-lg bg-obsidian-900 hover:bg-obsidian-800 border border-white/10 text-xs font-medium text-white flex items-center gap-1.5 transition">
           <i data-lucide="plus" class="w-3.5 h-3.5 text-bio-cyan"></i> New Element
         </button>
+        <button onclick="downloadUpdatedHtmlFile()" class="px-3.5 py-1.5 rounded-lg bg-bio-emerald text-obsidian-950 font-semibold text-xs flex items-center gap-1.5 hover:bg-emerald-400 shadow-md shadow-emerald-500/20 transition">
+          <i data-lucide="file-code" class="w-3.5 h-3.5"></i> Download Updated index.html
+        </button>
         <button onclick="openDataManagerModal()" class="px-3 py-1.5 rounded-lg bg-champagne-500 text-obsidian-950 font-semibold text-xs flex items-center gap-1.5 hover:bg-champagne-400 transition">
           <i data-lucide="download" class="w-3.5 h-3.5"></i> Export JSON
         </button>
@@ -324,18 +327,507 @@
   <!-- ==================== TOAST NOTIFICATION ==================== -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
+  <!-- ==================== EMBEDDED DEFAULT SITE DATABASE ==================== -->
+  <script id="evolve-default-data" type="application/json">
+{
+  "home": {
+    "eyebrow": "EVOLVE OPTIMAL // MULTIDISCIPLINARY PERFORMANCE HUB",
+    "headline": "Architecting Resilient Minds, Precision Nutrition & Adaptive Systems.",
+    "subheadline": "A living laboratory exploring the intersection of applied neuroscience, functional culinary craft, and modular human performance training.",
+    "primaryCta": "Explore Elements of Evolution",
+    "secondaryCta": "Enter Culinary Lab",
+    "manifestoTitle": "The Philosophy of Intentional Evolution",
+    "manifestoBody": "True optimization is never one-dimensional. Whether calibrating autonomic stress responses under pressure, formulating nutrient-dense culinary protocols, or designing clear mental models, every discipline reinforces the whole.",
+    "highlights": [
+      {
+        "id": "hl-1",
+        "tag": "01 // JOURNAL",
+        "title": "Field Notes & Essays",
+        "desc": "Long-form writing on cognitive clarity, nervous system regulation, and sustainable high performance.",
+        "targetPage": "journal"
+      },
+      {
+        "id": "hl-2",
+        "tag": "02 // CULINARY LAB",
+        "title": "Functional Recipe App",
+        "desc": "Interactive culinary formulations engineered for metabolic stability, recovery, and vibrant flavor.",
+        "targetPage": "culinary"
+      },
+      {
+        "id": "hl-3",
+        "tag": "03 // TRAINING MATRIX",
+        "title": "Elements of Evolution",
+        "desc": "An interactive periodic table of modular training protocols you can explore, customize, and master.",
+        "targetPage": "elements"
+      }
+    ]
+  },
+  "articles": [
+    {
+      "id": "art-1",
+      "title": "Autonomic Down-Regulation: Switching Off High-Alert Mode in 90 Seconds",
+      "category": "Neuroscience & Mindset",
+      "date": "Nov 12, 2026",
+      "readTime": "6 min read",
+      "featured": true,
+      "excerpt": "Why modern knowledge workers remain trapped in low-grade sympathetic arousal—and the exact respiratory mechanics that restore vagal tone between high-stakes sessions.",
+      "content": "Modern high-output environments rarely require physical sprint speed, yet our nervous systems respond to back-to-back cognitive demands as though we are navigating physical terrain.\n\nWhen sympathetic tone stays elevated for hours, prefrontal executive function narrows. Creativity drops, reactive decision-making rises, and sleep architecture fragments.\n\n### The Physiological Sigh & Cadence Shift\nResearch from Stanford's neurobiology labs confirms that double-inhales followed by an extended, unhurried exhale rapidly offload trapped carbon dioxide and mechanically stimulate the vagus nerve via diaphragm excursion.\n\n### Protocol Implementation\n1. Two sharp nasal inhales (first deep, second a quick top-off).\n2. One slow, controlled exhale through pursed lips lasting 6 to 8 seconds.\n3. Repeat for 4 to 6 cycles before transitioning between deep work blocks or leadership meetings."
+    },
+    {
+      "id": "art-2",
+      "title": "Metabolic Flexibility & Cognitive Endurance: Designing the Midday Meal",
+      "category": "Movement & Recovery",
+      "date": "Nov 04, 2026",
+      "readTime": "5 min read",
+      "featured": false,
+      "excerpt": "Eliminating the 2:30 PM glucose crash starts with meal sequencing, polyphenol density, and strategic amino acid pairing.",
+      "content": "Most afternoon brain fog is not a caffeine deficiency—it is a postprandial glycemic rollercoaster triggered by isolated refined carbohydrates.\n\nBy leading meals with fibrous greens, anchoring with 35–45g of clean bioavailable protein, and incorporating monounsaturated fats, glucose absorption slows dramatically.\n\nExplore our Culinary Lab tab for ready-to-cook bowls and neuro-fuel elixirs built around these exact ratios."
+    },
+    {
+      "id": "art-3",
+      "title": "Building Modular Personal Knowledge & Training Systems",
+      "category": "Community & Systems",
+      "date": "Oct 26, 2026",
+      "readTime": "7 min read",
+      "featured": false,
+      "excerpt": "How organizing skills into atomic, composable building blocks accelerates mastery across teams and individuals.",
+      "content": "Complex mastery becomes effortless when decomposed into atomic elements. Just as chemistry organizes matter by atomic structure and reactivity, human performance can be mapped into foundational protocols.\n\nWhen each skill has clear prerequisites, measurable outputs, and repeatable drills, anyone can assemble a custom curriculum tailored to their current season of life."
+    },
+    {
+      "id": "art-4",
+      "title": "Thermal Contrast & Vascular Resilience: Minimal Effective Doses",
+      "category": "Field Notes",
+      "date": "Oct 15, 2026",
+      "readTime": "4 min read",
+      "featured": false,
+      "excerpt": "You do not need extreme ice baths to trigger norepinephrine release and endothelial adaptation. Here is what the data actually supports.",
+      "content": "Consistency beats heroics in thermal hormesis. Just 11 minutes of total cold exposure per week—split across 2 to 4 brief sessions—paired with deliberate heat exposure supports mood, circulation, and stress inoculation.\n\nThe golden rule: end on cold when seeking daytime alertness, and end on warmth when prioritizing evening parasympathetic recovery."
+    }
+  ],
+  "recipes": [
+    {
+      "id": "rec-1",
+      "title": "Wild Salmon, Avocado & Black Forbidden Rice Neuro-Bowl",
+      "category": "Neuro-Fuel",
+      "prepTime": "25 mins",
+      "calories": "610 kcal",
+      "protein": "42g Protein",
+      "difficulty": "Intermediate",
+      "benefit": "Rich in DHA/EPA omega-3s & anthocyanins for sustained synaptic clarity.",
+      "imageUrl": "",
+      "gradient": "from-cyan-500/25 via-emerald-500/15 to-obsidian-900",
+      "ingredients": [
+        "6 oz wild-caught King or Sockeye salmon fillet",
+        "3/4 cup cooked black forbidden rice",
+        "1/2 ripe Hass avocado, sliced",
+        "1 cup steamed edamame & baby bok choy",
+        "1 tbsp toasted sesame oil + 1 tsp tamari",
+        "1 tsp freshly grated ginger & a squeeze of yuzu or lime",
+        "Garnish: toasted black sesame seeds & micro-cilantro"
+      ],
+      "steps": [
+        "Simmer black forbidden rice in bone or vegetable broth for 22 minutes until tender and nutty.",
+        "Pat salmon dry, season with sea salt, cracked pepper, and grated ginger. Sear skin-side down in avocado oil for 4 minutes, then flip for 2 minutes.",
+        "Whisk tamari, toasted sesame oil, and yuzu juice into a bright emulsion.",
+        "Assemble rice, greens, edamame, avocado, and flaked salmon in a wide ceramic bowl. Drizzle dressing and finish with sesame seeds."
+      ]
+    },
+    {
+      "id": "rec-2",
+      "title": "Golden Turmeric, Ginger & Collagen Recovery Elixir",
+      "category": "Anti-Inflammatory",
+      "prepTime": "8 mins",
+      "calories": "210 kcal",
+      "protein": "20g Protein",
+      "difficulty": "Effortless",
+      "benefit": "Curcumin + piperine synergy to down-regulate post-training inflammation.",
+      "imageUrl": "",
+      "gradient": "from-amber-400/25 via-orange-500/15 to-obsidian-900",
+      "ingredients": [
+        "1 cup unsweetened almond or macadamia milk",
+        "1 tsp organic turmeric powder (or 1 inch fresh root)",
+        "1/2 inch fresh ginger root, peeled",
+        "2 scoops grass-fed hydrolyzed collagen peptides",
+        "Pinch of freshly cracked black pepper (essential for curcumin bioavailability)",
+        "1/2 tsp Ceylon cinnamon + 1 tsp raw Manuka honey"
+      ],
+      "steps": [
+        "Gently warm macadamia milk in a small saucepan over medium-low heat—avoid boiling.",
+        "Add turmeric, grated ginger, cinnamon, and black pepper; whisk continuously for 3 minutes.",
+        "Remove from heat, transfer to a blender with collagen peptides and honey, and blend for 15 seconds until velvety froth forms."
+      ]
+    },
+    {
+      "id": "rec-3",
+      "title": "Herb-Crusted Bison & Roasted Sweet Potato Power Plate",
+      "category": "High-Protein",
+      "prepTime": "30 mins",
+      "calories": "680 kcal",
+      "protein": "48g Protein",
+      "difficulty": "Easy",
+      "benefit": "Bioavailable heme iron, B12, and slow-release glycogen replenishment.",
+      "imageUrl": "",
+      "gradient": "from-emerald-500/25 via-teal-500/15 to-obsidian-900",
+      "ingredients": [
+        "7 oz grass-fed ground bison or flank steak",
+        "1 medium Japanese sweet potato, cubed",
+        "2 cups arugula tossed with lemon & extra-virgin olive oil",
+        "1 tbsp fresh rosemary & thyme, finely minced",
+        "1 tbsp grass-fed ghee or cold-pressed avocado oil",
+        "Flaky Maldon sea salt"
+      ],
+      "steps": [
+        "Toss cubed Japanese sweet potatoes in avocado oil, rosemary, and sea salt. Roast at 425°F (220°C) for 22 minutes until caramelized.",
+        "Sear bison in a cast-iron skillet over medium-high heat with thyme and ghee until medium-rare.",
+        "Plate alongside crisp lemon-dressed arugula and roasted sweet potatoes."
+      ]
+    },
+    {
+      "id": "rec-4",
+      "title": "Tart Cherry, Magnesium & Cacao Nightcap Mousse",
+      "category": "Recovery",
+      "prepTime": "10 mins",
+      "calories": "240 kcal",
+      "protein": "14g Protein",
+      "difficulty": "Effortless",
+      "benefit": "Natural melatonin precursors + magnesium glycinate to deepen slow-wave sleep.",
+      "imageUrl": "",
+      "gradient": "from-violet-500/25 via-rose-500/15 to-obsidian-900",
+      "ingredients": [
+        "1/2 cup organic unsweetened Greek yogurt or coconut yogurt",
+        "2 tbsp Montmorency tart cherry concentrate",
+        "1 tbsp raw ceremonial cacao powder",
+        "1 scoop magnesium bisglycinate powder (unflavored)",
+        "6 crushed raw pistachios & dark cacao nibs"
+      ],
+      "steps": [
+        "Whip yogurt, tart cherry concentrate, cacao powder, and magnesium until smooth and aerated.",
+        "Chill for 10 minutes, top with crushed pistachios and cacao nibs, and enjoy 60 minutes before sleep."
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "id": "el-1",
+      "number": 1,
+      "symbol": "Br",
+      "name": "Breath Mechanics",
+      "category": "neuro",
+      "row": 1,
+      "col": 1,
+      "duration": "25 Min Module",
+      "level": "Foundation",
+      "summary": "Master CO2 tolerance, nasal cadence, and rapid vagal down-regulation under acute pressure.",
+      "objectives": [
+        "Measure baseline BOLT (Body Oxygen Level Test) score",
+        "Execute Physiological Sighs for instant autonomic reset",
+        "Apply box & cadence breathing during cognitive load"
+      ],
+      "content": "### Module 01: Breath Mechanics (Br)\n\nRespiration is the only autonomic system you can consciously control in real time. By altering inhale-to-exhale ratios, you directly steer heart rate variability (HRV) and locus coeruleus arousal.\n\n**Core Practice:**\n- **4-7-8 Cadence:** Evening sympathetic brake.\n- **Double-Inhale Sigh:** Rapid mid-day reset between high-stakes demands.\n- **Nasal-Only Zone 2:** Builds nitric oxide efficiency and CO2 tolerance."
+    },
+    {
+      "id": "el-2",
+      "number": 2,
+      "symbol": "Sl",
+      "name": "Sleep Architecture",
+      "category": "physical",
+      "row": 1,
+      "col": 18,
+      "duration": "40 Min Module",
+      "level": "Foundation",
+      "summary": "Engineer circadian alignment, thermal drop, and deep slow-wave glymphatic clearance.",
+      "objectives": [
+        "Anchor morning cortisol pulse with 10-minute solar photon exposure",
+        "Optimize bedroom thermal envelope (65°F / 18°C)",
+        "Eliminate late-evening blue spectrum & metabolic disruption"
+      ],
+      "content": "### Module 02: Sleep Architecture (Sl)\n\nSleep is the master multiplier of every cognitive, emotional, and physical adaptation. Deep NREM sleep consolidates motor memory and clears metabolic waste, while REM recalibrates emotional circuitry.\n\n**The 3-2-1 Protocol:**\n- **3 hours** before bed: finish final caloric intake.\n- **2 hours** before bed: conclude intense analytical work.\n- **1 hour** before bed: dim overhead lighting and transition to analog recovery."
+    },
+    {
+      "id": "el-3",
+      "number": 3,
+      "symbol": "Fc",
+      "name": "Focus Priming",
+      "category": "cognitive",
+      "row": 2,
+      "col": 1,
+      "duration": "35 Min Module",
+      "level": "Core",
+      "summary": "Design friction-free 90-minute ultradian deep work sprints with visual & auditory anchors.",
+      "objectives": [
+        "Align peak analytical tasks with circadian temperature rise",
+        "Use narrow visual gaze fixation to trigger norepinephrine focus",
+        "Structure 15-minute non-screen neural rest intervals"
+      ],
+      "content": "### Module 03: Focus Priming (Fc)\n\nAttention is not an on/off switch—it requires a 12-to-15 minute neurochemical ramp-up. Protecting the threshold of an ultradian cycle prevents fragmented shallow work."
+    },
+    {
+      "id": "el-4",
+      "number": 4,
+      "symbol": "Mb",
+      "name": "Mobility Flow",
+      "category": "physical",
+      "row": 2,
+      "col": 2,
+      "duration": "30 Min Module",
+      "level": "Foundation",
+      "summary": "Controlled Articular Rotations (CARs) and end-range joint resilience for lifelong movement freedom.",
+      "objectives": [
+        "Perform a 10-minute morning full-spine & hip CARs sequence",
+        "Decompress thoracic rigidity caused by desk posture",
+        "Build isometric strength at end-range joint angles"
+      ],
+      "content": "### Module 04: Mobility Flow (Mb)\n\nFlexibility is passive; mobility is usable strength through full joint range of motion. Daily Controlled Articular Rotations nourish joint capsules and feed mechanoreceptor feedback to the cerebellum."
+    },
+    {
+      "id": "el-5",
+      "number": 5,
+      "symbol": "Mm",
+      "name": "Mental Models",
+      "category": "cognitive",
+      "row": 2,
+      "col": 13,
+      "duration": "45 Min Module",
+      "level": "Intermediate",
+      "summary": "First-principles reasoning, inversion, and second-order consequence mapping for complex decisions.",
+      "objectives": [
+        "Apply Inversion to pre-mortem high-risk initiatives",
+        "Separate signal from noise using probabilistic thinking",
+        "Build a personal latticework of cross-disciplinary frameworks"
+      ],
+      "content": "### Module 05: Mental Models (Mm)\n\nSuperior decisions rarely come from raw IQ alone; they emerge from viewing a problem through multiple reliable lenses—First Principles, Inversion, Opportunity Cost, and Asymmetric Risk."
+    },
+    {
+      "id": "el-6",
+      "number": 6,
+      "symbol": "Vg",
+      "name": "Vagal Tone",
+      "category": "neuro",
+      "row": 2,
+      "col": 14,
+      "duration": "30 Min Module",
+      "level": "Core",
+      "summary": "Strengthen parasympathetic brake responsiveness and emotional composure in volatile rooms.",
+      "objectives": [
+        "Track and interpret morning Heart Rate Variability (HRV) trends",
+        "Utilize humming, cold facial immersion, and panoramic vision",
+        "Rapidly recover baseline calm after interpersonal conflict"
+      ],
+      "content": "### Module 06: Vagal Tone (Vg)\n\nHigh vagal tone reflects cardiovascular and emotional adaptability—the ability to surge energy when needed and decelerate effortlessly once the challenge concludes."
+    },
+    {
+      "id": "el-7",
+      "number": 7,
+      "symbol": "St",
+      "name": "Stress Inoculation",
+      "category": "resilience",
+      "row": 2,
+      "col": 15,
+      "duration": "50 Min Module",
+      "level": "Advanced",
+      "summary": "Voluntary hormetic exposure to calibrate calm execution during real-world crisis.",
+      "objectives": [
+        "Practice cognitive reframing under controlled discomfort",
+        "Separate physical sensation from catastrophic narrative",
+        "Maintain vocal & decision clarity under time compression"
+      ],
+      "content": "### Module 07: Stress Inoculation (St)\n\nBy voluntarily stepping into controlled stressors—whether cold immersion, intense intervals, or high-stakes simulations—you train the prefrontal cortex to stay online when adrenaline spikes."
+    },
+    {
+      "id": "el-8",
+      "number": 8,
+      "symbol": "Sy",
+      "name": "Systems Design",
+      "category": "leadership",
+      "row": 2,
+      "col": 16,
+      "duration": "55 Min Module",
+      "level": "Advanced",
+      "summary": "Replace willpower-dependent habits with self-reinforcing environmental and team architectures.",
+      "objectives": [
+        "Audit friction points in daily workflows and team rituals",
+        "Design feedback loops that surface bottlenecks early",
+        "Create clear standard operating rhythms without micromanagement"
+      ],
+      "content": "### Module 08: Systems Design (Sy)\n\nYou do not rise to the level of your goals; you fall to the level of your systems. Well-architected environments make optimal behaviors the default path of least resistance."
+    },
+    {
+      "id": "el-9",
+      "number": 9,
+      "symbol": "Mt",
+      "name": "Metabolic Fuel",
+      "category": "physical",
+      "row": 3,
+      "col": 1,
+      "duration": "40 Min Module",
+      "level": "Core",
+      "summary": "Nutrient timing, glycemic stability, and mitochondrial biogenesis for clean all-day energy.",
+      "objectives": [
+        "Construct meals around protein threshold & polyphenol diversity",
+        "Eliminate afternoon glucose volatility",
+        "Integrate Zone 2 aerobic base training for mitochondrial density"
+      ],
+      "content": "### Module 09: Metabolic Fuel (Mt)\n\nClean cellular ATP production underpins mental stamina. Combining whole-food micronutrient density with regular Zone 2 movement builds metabolic flexibility."
+    },
+    {
+      "id": "el-10",
+      "number": 10,
+      "symbol": "Th",
+      "name": "Thermal Hormesis",
+      "category": "resilience",
+      "row": 3,
+      "col": 2,
+      "duration": "30 Min Module",
+      "level": "Intermediate",
+      "summary": "Strategic sauna heat shock proteins and cold dopamine/norepinephrine protocols.",
+      "objectives": [
+        "Follow the 11-minute weekly cold / 57-minute weekly heat benchmark",
+        "Use post-sauna cooling for cardiovascular conditioning",
+        "Time thermal sessions to support rather than blunt hypertrophy"
+      ],
+      "content": "### Module 10: Thermal Hormesis (Th)\n\nDeliberate temperature contrast challenges vascular elasticity and triggers durable neurochemical elevations without pharmacological crashes."
+    },
+    {
+      "id": "el-11",
+      "number": 11,
+      "symbol": "Fw",
+      "name": "Flow Triggers",
+      "category": "cognitive",
+      "row": 3,
+      "col": 13,
+      "duration": "45 Min Module",
+      "level": "Intermediate",
+      "summary": "Calibrate the challenge-to-skill ratio to unlock effortless transient hypofrontality.",
+      "objectives": [
+        "Dial tasks into the 4% stretch zone above current skill",
+        "Establish clear immediate goals and unambiguous feedback",
+        "Protect uninterrupted multi-hour creative blocks"
+      ],
+      "content": "### Module 11: Flow Triggers (Fw)\n\nFlow emerges when distraction disappears and challenge slightly exceeds current capability—merging action and awareness into peak creative output."
+    },
+    {
+      "id": "el-12",
+      "number": 12,
+      "symbol": "Eq",
+      "name": "Emotional Equanimity",
+      "category": "neuro",
+      "row": 3,
+      "col": 14,
+      "duration": "35 Min Module",
+      "level": "Core",
+      "summary": "Interoceptive awareness and cognitive labeling to transform emotional reactivity into data.",
+      "objectives": [
+        "Practice affect labeling to quiet amygdala activation",
+        "Expand the stimulus-to-response pause during high friction",
+        "Cultivate grounded presence in turbulent environments"
+      ],
+      "content": "### Module 12: Emotional Equanimity (Eq)\n\nEquanimity is not suppression; it is full awareness of internal states without being hijacked by them."
+    },
+    {
+      "id": "el-13",
+      "number": 13,
+      "symbol": "Cr",
+      "name": "Crisis Clarity",
+      "category": "resilience",
+      "row": 3,
+      "col": 15,
+      "duration": "50 Min Module",
+      "level": "Mastery",
+      "summary": "OODA loop acceleration, triage protocols, and decisive communication when stakes peak.",
+      "objectives": [
+        "Execute rapid Observe-Orient-Decide-Act cycles",
+        "Prioritize vital variables under incomplete information",
+        "Anchor team composure through calm, concise directives"
+      ],
+      "content": "### Module 13: Crisis Clarity (Cr)\n\nIn high-consequence moments, clarity is contagious. Slowing your cadence, widening your visual field, and isolating the single next right action stabilizes the entire room."
+    },
+    {
+      "id": "el-14",
+      "number": 14,
+      "symbol": "Cl",
+      "name": "Cultural Architecture",
+      "category": "leadership",
+      "row": 3,
+      "col": 16,
+      "duration": "60 Min Module",
+      "level": "Mastery",
+      "summary": "Build high-trust, high-accountability teams united by shared standards and psychological safety.",
+      "objectives": [
+        "Balance fierce candor with genuine personal care",
+        "Codify non-negotiable operating principles",
+        "Turn retrospectives into blameless learning engines"
+      ],
+      "content": "### Module 14: Cultural Architecture (Cl)\n\nHigh-performing cultures thrive where standards are crystal clear and experimentation is rewarded over defensiveness."
+    },
+    {
+      "id": "el-15",
+      "number": 15,
+      "symbol": "Nr",
+      "name": "Neuroplasticity Drills",
+      "category": "neuro",
+      "row": 3,
+      "col": 17,
+      "duration": "40 Min Module",
+      "level": "Intermediate",
+      "summary": "Harnessing productive frustration, acetylcholine focus, and NSDR to rewire adult neural circuits.",
+      "objectives": [
+        "Embrace error-driven learning signals as synaptic catalysts",
+        "Pair intense skill bouts with 20-minute Non-Sleep Deep Rest",
+        "Accelerate motor and cognitive skill acquisition"
+      ],
+      "content": "### Module 15: Neuroplasticity Drills (Nr)\n\nAdult brain rewiring requires two distinct phases: high-alert focused effort (acetylcholine + epinephrine) followed by deep neural rest where synaptic strengthening actually solidifies."
+    },
+    {
+      "id": "el-16",
+      "number": 16,
+      "symbol": "Sn",
+      "name": "Strategic Narrative",
+      "category": "leadership",
+      "row": 3,
+      "col": 18,
+      "duration": "45 Min Module",
+      "level": "Core",
+      "summary": "Synthesize complex vision into compelling, actionable stories that align people and purpose.",
+      "objectives": [
+        "Frame transformation around shared meaning and concrete stakes",
+        "Eliminate jargon in favor of vivid mental imagery",
+        "Connect daily execution to long-horizon mission"
+      ],
+      "content": "### Module 16: Strategic Narrative (Sn)\n\nPeople do not rally around spreadsheets—they rally around coherent stories that clarify where we are, why change matters, and what victory looks like."
+    }
+  ],
+  "completedElements": [
+    "el-1",
+    "el-2"
+  ]
+}
+  </script>
+
   <!-- ==================== APPLICATION LOGIC & DEFAULT STATE ==================== -->
   <script>
     /**
      * EVOLVE OPTIMAL — STANDALONE MULTI-PAGE SPA ENGINE
      * Architecture:
-     * 1. DEFAULT_SITE_DATA: Complete initial state (Home config, Journal posts, Culinary Lab recipes, Elements of Evolution periodic table).
-     * 2. State Persistence: Syncs automatically with localStorage ('evolve_optimal_state_v1') with full JSON Export/Import.
+     * 1. DEFAULT_DATA: Parsed cleanly from <script id="evolve-default-data" type="application/json">.
+     * 2. State Persistence: Syncs automatically with localStorage ('evolve_optimal_state_v1') with 1-click HTML & JSON export.
      * 3. Hash Router: Supports #home, #journal, #culinary, #elements seamlessly.
      * 4. Creator Studio: Inline editing + rich creation modals for adding/modifying any entry.
      */
 
     const STORAGE_KEY = 'evolve_optimal_state_v1';
+
+    function getEmbeddedDefaultData() {
+      try {
+        const dataEl = document.getElementById('evolve-default-data');
+        if (!dataEl) throw new Error('Embedded default data tag not found.');
+        return JSON.parse(dataEl.textContent.trim());
+      } catch (err) {
+        console.error('Failed to parse embedded default data:', err);
+        return { home: { highlights: [] }, articles: [], recipes: [], elements: [], completedElements: [] };
+      }
+    }
+
+    const DEFAULT_DATA = getEmbeddedDefaultData();
 
     const ELEMENT_CATEGORIES = {
       neuro: {
@@ -356,7 +848,7 @@
         label: 'Cognitive Architecture',
         color: 'champagne',
         badgeClass: 'bg-amber-400/15 text-amber-200 border-amber-300/30',
-        tileClass: 'from-amber-400/20 to-obsidian-900/90 border-amber-300/40 hover:border-amber-200 hover:shadow-[0_0_25px_rgba(226,199,146,0.35)]',
+        tileClass: 'from-amber-400/20 to-obsidian-900/90 border-amber-300/30 hover:border-amber-200 hover:shadow-[0_0_25px_rgba(226,199,146,0.35)]',
         accentText: 'text-champagne-400'
       },
       resilience: {
@@ -375,485 +867,6 @@
       }
     };
 
-    const DEFAULT_SITE_DATA = {
-      home: {
-        eyebrow: 'EVOLVE OPTIMAL // MULTIDISCIPLINARY PERFORMANCE HUB',
-        headline: 'Architecting Resilient Minds, Precision Nutrition & Adaptive Systems.',
-        subheadline: 'A living laboratory exploring the intersection of applied neuroscience, functional culinary craft, and modular human performance training.',
-        primaryCta: 'Explore Elements of Evolution',
-        secondaryCta: 'Enter Culinary Lab',
-        manifestoTitle: 'The Philosophy of Intentional Evolution',
-        manifestoBody: 'True optimization is never one-dimensional. Whether calibrating autonomic stress responses under pressure, formulating nutrient-dense culinary protocols, or designing clear mental models, every discipline reinforces the whole.',
-        highlights: [
-          {
-            id: 'hl-1',
-            tag: '01 // JOURNAL',
-            title: 'Field Notes & Essays',
-            desc: 'Long-form writing on cognitive clarity, nervous system regulation, and sustainable high performance.',
-            targetPage: 'journal'
-          },
-          {
-            id: 'hl-2',
-            tag: '02 // CULINARY LAB',
-            title: 'Functional Recipe App',
-            desc: 'Interactive culinary formulations engineered for metabolic stability, recovery, and vibrant flavor.',
-            targetPage: 'culinary'
-          },
-          {
-            id: 'hl-3',
-            tag: '03 // TRAINING MATRIX',
-            title: 'Elements of Evolution',
-            desc: 'An interactive periodic table of modular training protocols you can explore, customize, and master.',
-            targetPage: 'elements'
-          }
-        ]
-      },
-
-      articles: [
-        {
-          id: 'art-1',
-          title: 'Autonomic Down-Regulation: Switching Off High-Alert Mode in 90 Seconds',
-          category: 'Neuroscience & Mindset',
-          date: 'Nov 12, 2026',
-          readTime: '6 min read',
-          featured: true,
-          excerpt: 'Why modern knowledge workers remain trapped in low-grade sympathetic arousal—and the exact respiratory mechanics that restore vagal tone between high-stakes sessions.',
-          content: `Modern high-output environments rarely require physical sprint speed, yet our nervous systems respond to back-to-back cognitive demands as though we are navigating physical terrain.\n\nWhen sympathetic tone stays elevated for hours, prefrontal executive function narrows. Creativity drops, reactive decision-making rises, and sleep architecture fragments.\n\n### The Physiological Sigh & Cadence Shift\nResearch from Stanford's neurobiology labs confirms that double-inhales followed by an extended, unhurried exhale rapidly offload trapped carbon dioxide and mechanically stimulate the vagus nerve via diaphragm excursion.\n\n### Protocol Implementation\n1. Two sharp nasal inhales (first deep, second a quick top-off).\n2. One slow, controlled exhale through pursed lips lasting 6 to 8 seconds.\n3. Repeat for 4 to 6 cycles before transitioning between deep work blocks or leadership meetings.`
-        },
-        {
-          id: 'art-2',
-          title: 'Metabolic Flexibility & Cognitive Endurance: Designing the Midday Meal',
-          category: 'Movement & Recovery',
-          date: 'Nov 04, 2026',
-          readTime: '5 min read',
-          featured: false,
-          excerpt: 'Eliminating the 2:30 PM glucose crash starts with meal sequencing, polyphenol density, and strategic amino acid pairing.',
-          content: `Most afternoon brain fog is not a caffeine deficiency—it is a postprandial glycemic rollercoaster triggered by isolated refined carbohydrates.\n\nBy leading meals with fibrous greens, anchoring with 35–45g of clean bioavailable protein, and incorporating monounsaturated fats, glucose absorption slows dramatically.\n\nExplore our Culinary Lab tab for ready-to-cook bowls and neuro-fuel elixirs built around these exact ratios.`
-        },
-        {
-          id: 'art-3',
-          title: 'Building Modular Personal Knowledge & Training Systems',
-          category: 'Community & Systems',
-          date: 'Oct 26, 2026',
-          readTime: '7 min read',
-          featured: false,
-          excerpt: 'How organizing skills into atomic, composable building blocks accelerates mastery across teams and individuals.',
-          content: `Complex mastery becomes effortless when decomposed into atomic elements. Just as chemistry organizes matter by atomic structure and reactivity, human performance can be mapped into foundational protocols.\n\nWhen each skill has clear prerequisites, measurable outputs, and repeatable drills, anyone can assemble a custom curriculum tailored to their current season of life.`
-        },
-        {
-          id: 'art-4',
-          title: 'Thermal Contrast & Vascular Resilience: Minimal Effective Doses',
-          category: 'Field Notes',
-          date: 'Oct 15, 2026',
-          readTime: '4 min read',
-          featured: false,
-          excerpt: 'You do not need extreme ice baths to trigger norepinephrine release and endothelial adaptation. Here is what the data actually supports.',
-          content: `Consistency beats heroics in thermal hormesis. Just 11 minutes of total cold exposure per week—split across 2 to 4 brief sessions—paired with deliberate heat exposure supports mood, circulation, and stress inoculation.\n\nThe golden rule: end on cold when seeking daytime alertness, and end on warmth when prioritizing evening parasympathetic recovery.`
-        }
-      ],
-
-      recipes: [
-        {
-          id: 'rec-1',
-          title: 'Wild Salmon, Avocado & Black Forbidden Rice Neuro-Bowl',
-          category: 'Neuro-Fuel',
-          prepTime: '25 mins',
-          calories: '610 kcal',
-          protein: '42g Protein',
-          difficulty: 'Intermediate',
-          benefit: 'Rich in DHA/EPA omega-3s & anthocyanins for sustained synaptic clarity.',
-          imageUrl: '',
-          gradient: 'from-cyan-500/25 via-emerald-500/15 to-obsidian-900',
-          ingredients: [
-            '6 oz wild-caught King or Sockeye salmon fillet',
-            '3/4 cup cooked black forbidden rice',
-            '1/2 ripe Hass avocado, sliced',
-            '1 cup steamed edamame & baby bok choy',
-            '1 tbsp toasted sesame oil + 1 tsp tamari',
-            '1 tsp freshly grated ginger & a squeeze of yuzu or lime',
-            'Garnish: toasted black sesame seeds & micro-cilantro'
-          ],
-          steps: [
-            'Simmer black forbidden rice in bone or vegetable broth for 22 minutes until tender and nutty.',
-            'Pat salmon dry, season with sea salt, cracked pepper, and grated ginger. Sear skin-side down in avocado oil for 4 minutes, then flip for 2 minutes.',
-            'Whisk tamari, toasted sesame oil, and yuzu juice into a bright emulsion.',
-            'Assemble rice, greens, edamame, avocado, and flaked salmon in a wide ceramic bowl. Drizzle dressing and finish with sesame seeds.'
-          ]
-        },
-        {
-          id: 'rec-2',
-          title: 'Golden Turmeric, Ginger & Collagen Recovery Elixir',
-          category: 'Anti-Inflammatory',
-          prepTime: '8 mins',
-          calories: '210 kcal',
-          protein: '20g Protein',
-          difficulty: 'Effortless',
-          benefit: 'Curcumin + piperine synergy to down-regulate post-training inflammation.',
-          imageUrl: '',
-          gradient: 'from-amber-400/25 via-orange-500/15 to-obsidian-900',
-          ingredients: [
-            '1 cup unsweetened almond or macadamia milk',
-            '1 tsp organic turmeric powder (or 1 inch fresh root)',
-            '1/2 inch fresh ginger root, peeled',
-            '2 scoops grass-fed hydrolyzed collagen peptides',
-            'Pinch of freshly cracked black pepper (essential for curcumin bioavailability)',
-            '1/2 tsp Ceylon cinnamon + 1 tsp raw Manuka honey'
-          ],
-          steps: [
-            'Gently warm macadamia milk in a small saucepan over medium-low heat—avoid boiling.',
-            'Add turmeric, grated ginger, cinnamon, and black pepper; whisk continuously for 3 minutes.',
-            'Remove from heat, transfer to a blender with collagen peptides and honey, and blend for 15 seconds until velvety froth forms.'
-          ]
-        },
-        {
-          id: 'rec-3',
-          title: 'Herb-Crusted Bison & Roasted Sweet Potato Power Plate',
-          category: 'High-Protein',
-          prepTime: '30 mins',
-          calories: '680 kcal',
-          protein: '48g Protein',
-          difficulty: 'Easy',
-          benefit: 'Bioavailable heme iron, B12, and slow-release glycogen replenishment.',
-          imageUrl: '',
-          gradient: 'from-emerald-500/25 via-teal-500/15 to-obsidian-900',
-          ingredients: [
-            '7 oz grass-fed ground bison or flank steak',
-            '1 medium Japanese sweet potato, cubed',
-            '2 cups arugula tossed with lemon & extra-virgin olive oil',
-            '1 tbsp fresh rosemary & thyme, finely minced',
-            '1 tbsp grass-fed ghee or cold-pressed avocado oil',
-            'Flaky Maldon sea salt'
-          ],
-          steps: [
-            'Toss cubed Japanese sweet potatoes in avocado oil, rosemary, and sea salt. Roast at 425°F (220°C) for 22 minutes until caramelized.',
-            'Sear bison in a cast-iron skillet over medium-high heat with thyme and ghee until medium-rare.',
-            'Plate alongside crisp lemon-dressed arugula and roasted sweet potatoes.'
-          ]
-        },
-        {
-          id: 'rec-4',
-          title: 'Tart Cherry, Magnesium & Cacao Nightcap Mousse',
-          category: 'Recovery',
-          prepTime: '10 mins',
-          calories: '240 kcal',
-          protein: '14g Protein',
-          difficulty: 'Effortless',
-          benefit: 'Natural melatonin precursors + magnesium glycinate to deepen slow-wave sleep.',
-          imageUrl: '',
-          gradient: 'from-violet-500/25 via-rose-500/15 to-obsidian-900',
-          ingredients: [
-            '1/2 cup organic unsweetened Greek yogurt or coconut yogurt',
-            '2 tbsp Montmorency tart cherry concentrate',
-            '1 tbsp raw ceremonial cacao powder',
-            '1 scoop magnesium bisglycinate powder (unflavored)',
-            '6 crushed raw pistachios & dark cacao nibs'
-          ],
-          steps: [
-            'Whip yogurt, tart cherry concentrate, cacao powder, and magnesium until smooth and aerated.',
-            'Chill for 10 minutes, top with crushed pistachios and cacao nibs, and enjoy 60 minutes before sleep.'
-          ]
-        }
-      ],
-
-      elements: [
-        // Row 1 (Period 1: Foundations - Col 1 & Col 18)
-        {
-          id: 'el-1',
-          number: 1,
-          symbol: 'Br',
-          name: 'Breath Mechanics',
-          category: 'neuro',
-          row: 1,
-          col: 1,
-          duration: '25 Min Module',
-          level: 'Foundation',
-          summary: 'Master CO2 tolerance, nasal cadence, and rapid vagal down-regulation under acute pressure.',
-          objectives: [
-            'Measure baseline BOLT (Body Oxygen Level Test) score',
-            'Execute Physiological Sighs for instant autonomic reset',
-            'Apply box & cadence breathing during cognitive load'
-          ],
-          content: `### Module 01: Breath Mechanics (Br)\n\nRespiration is the only autonomic system you can consciously control in real time. By altering inhale-to-exhale ratios, you directly steer heart rate variability (HRV) and locus coeruleus arousal.\n\n**Core Practice:**\n- **4-7-8 Cadence:** Evening sympathetic brake.\n- **Double-Inhale Sigh:** Rapid mid-day reset between high-stakes demands.\n- **Nasal-Only Zone 2:** Builds nitric oxide efficiency and CO2 tolerance.`
-        },
-        {
-          id: 'el-2',
-          number: 2,
-          symbol: 'Sl',
-          name: 'Sleep Architecture',
-          category: 'physical',
-          row: 1,
-          col: 18,
-          duration: '40 Min Module',
-          level: 'Foundation',
-          summary: 'Engineer circadian alignment, thermal drop, and deep slow-wave glymphatic clearance.',
-          objectives: [
-            'Anchor morning cortisol pulse with 10-minute solar photon exposure',
-            'Optimize bedroom thermal envelope (65°F / 18°C)',
-            'Eliminate late-evening blue spectrum & metabolic disruption'
-          ],
-          content: `### Module 02: Sleep Architecture (Sl)\n\nSleep is the master multiplier of every cognitive, emotional, and physical adaptation. Deep NREM sleep consolidates motor memory and clears metabolic waste, while REM recalibrates emotional circuitry.\n\n**The 3-2-1 Protocol:**\n- **3 hours** before bed: finish final caloric intake.\n- **2 hours** before bed: conclude intense analytical work.\n- **1 hour** before bed: dim overhead lighting and transition to analog recovery.`
-        },
-
-        // Row 2 (Cols 1-2 & Cols 13-18)
-        {
-          id: 'el-3',
-          number: 3,
-          symbol: 'Fc',
-          name: 'Focus Priming',
-          category: 'cognitive',
-          row: 2,
-          col: 1,
-          duration: '35 Min Module',
-          level: 'Core',
-          summary: 'Design friction-free 90-minute ultradian deep work sprints with visual & auditory anchors.',
-          objectives: [
-            'Align peak analytical tasks with circadian temperature rise',
-            'Use narrow visual gaze fixation to trigger norepinephrine focus',
-            'Structure 15-minute non-screen neural rest intervals'
-          ],
-          content: `### Module 03: Focus Priming (Fc)\n\nAttention is not an on/off switch—it requires a 12-to-15 minute neurochemical ramp-up. Protecting the threshold of an ultradian cycle prevents fragmented shallow work.`
-        },
-        {
-          id: 'el-4',
-          number: 4,
-          symbol: 'Mb',
-          name: 'Mobility Flow',
-          category: 'physical',
-          row: 2,
-          col: 2,
-          duration: '30 Min Module',
-          level: 'Foundation',
-          summary: 'Controlled Articular Rotations (CARs) and end-range joint resilience for lifelong movement freedom.',
-          objectives: [
-            'Perform a 10-minute morning full-spine & hip CARs sequence',
-            'Decompress thoracic rigidity caused by desk posture',
-            'Build isometric strength at end-range joint angles'
-          ],
-          content: `### Module 04: Mobility Flow (Mb)\n\nFlexibility is passive; mobility is usable strength through full joint range of motion. Daily Controlled Articular Rotations nourish joint capsules and feed mechanoreceptor feedback to the cerebellum.`
-        },
-        {
-          id: 'el-5',
-          number: 5,
-          symbol: 'Mm',
-          name: 'Mental Models',
-          category: 'cognitive',
-          row: 2,
-          col: 13,
-          duration: '45 Min Module',
-          level: 'Intermediate',
-          summary: 'First-principles reasoning, inversion, and second-order consequence mapping for complex decisions.',
-          objectives: [
-            'Apply Inversion to pre-mortem high-risk initiatives',
-            'Separate signal from noise using probabilistic thinking',
-            'Build a personal latticework of cross-disciplinary frameworks'
-          ],
-          content: `### Module 05: Mental Models (Mm)\n\nSuperior decisions rarely come from raw IQ alone; they emerge from viewing a problem through multiple reliable lenses—First Principles, Inversion, Opportunity Cost, and Asymmetric Risk.`
-        },
-        {
-          id: 'el-6',
-          number: 6,
-          symbol: 'Vg',
-          name: 'Vagal Tone',
-          category: 'neuro',
-          row: 2,
-          col: 14,
-          duration: '30 Min Module',
-          level: 'Core',
-          summary: 'Strengthen parasympathetic brake responsiveness and emotional composure in volatile rooms.',
-          objectives: [
-            'Track and interpret morning Heart Rate Variability (HRV) trends',
-            'Utilize humming, cold facial immersion, and panoramic vision',
-            'Rapidly recover baseline calm after interpersonal conflict'
-          ],
-          content: `### Module 06: Vagal Tone (Vg)\n\nHigh vagal tone reflects cardiovascular and emotional adaptability—the ability to surge energy when needed and decelerate effortlessly once the challenge concludes.`
-        },
-        {
-          id: 'el-7',
-          number: 7,
-          symbol: 'St',
-          name: 'Stress Inoculation',
-          category: 'resilience',
-          row: 2,
-          col: 15,
-          duration: '50 Min Module',
-          level: 'Advanced',
-          summary: 'Voluntary hormetic exposure to calibrate calm execution during real-world crisis.',
-          objectives: [
-            'Practice cognitive reframing under controlled discomfort',
-            'Separate physical sensation from catastrophic narrative',
-            'Maintain vocal & decision clarity under time compression'
-          ],
-          content: `### Module 07: Stress Inoculation (St)\n\nBy voluntarily stepping into controlled stressors—whether cold immersion, intense intervals, or high-stakes simulations—you train the prefrontal cortex to stay online when adrenaline spikes.`
-        },
-        {
-          id: 'el-8',
-          number: 8,
-          symbol: 'Sy',
-          name: 'Systems Design',
-          category: 'leadership',
-          row: 2,
-          col: 16,
-          duration: '55 Min Module',
-          level: 'Advanced',
-          summary: 'Replace willpower-dependent habits with self-reinforcing environmental and team architectures.',
-          objectives: [
-            'Audit friction points in daily workflows and team rituals',
-            'Design feedback loops that surface bottlenecks early',
-            'Create clear standard operating rhythms without micromanagement'
-          ],
-          content: `### Module 08: Systems Design (Sy)\n\nYou do not rise to the level of your goals; you fall to the level of your systems. Well-architected environments make optimal behaviors the default path of least resistance.`
-        },
-
-        // Row 3 (Cols 1-2 & Cols 13-18)
-        {
-          id: 'el-9',
-          number: 9,
-          symbol: 'Mt',
-          name: 'Metabolic Fuel',
-          category: 'physical',
-          row: 3,
-          col: 1,
-          duration: '40 Min Module',
-          level: 'Core',
-          summary: 'Nutrient timing, glycemic stability, and mitochondrial biogenesis for clean all-day energy.',
-          objectives: [
-            'Construct meals around protein threshold & polyphenol diversity',
-            'Eliminate afternoon glucose volatility',
-            'Integrate Zone 2 aerobic base training for mitochondrial density'
-          ],
-          content: `### Module 09: Metabolic Fuel (Mt)\n\nClean cellular ATP production underpins mental stamina. Combining whole-food micronutrient density with regular Zone 2 movement builds metabolic flexibility.`
-        },
-        {
-          id: 'el-10',
-          number: 10,
-          symbol: 'Th',
-          name: 'Thermal Hormesis',
-          category: 'resilience',
-          row: 3,
-          col: 2,
-          duration: '30 Min Module',
-          level: 'Intermediate',
-          summary: 'Strategic sauna heat shock proteins and cold dopamine/norepinephrine protocols.',
-          objectives: [
-            'Follow the 11-minute weekly cold / 57-minute weekly heat benchmark',
-            'Use post-sauna cooling for cardiovascular conditioning',
-            'Time thermal sessions to support rather than blunt hypertrophy'
-          ],
-          content: `### Module 10: Thermal Hormesis (Th)\n\nDeliberate temperature contrast challenges vascular elasticity and triggers durable neurochemical elevations without pharmacological crashes.`
-        },
-        {
-          id: 'el-11',
-          number: 11,
-          symbol: 'Fw',
-          name: 'Flow Triggers',
-          category: 'cognitive',
-          row: 3,
-          col: 13,
-          duration: '45 Min Module',
-          level: 'Intermediate',
-          summary: 'Calibrate the challenge-to-skill ratio to unlock effortless transient hypofrontality.',
-          objectives: [
-            'Dial tasks into the 4% stretch zone above current skill',
-            'Establish clear immediate goals and unambiguous feedback',
-            'Protect uninterrupted multi-hour creative blocks'
-          ],
-          content: `### Module 11: Flow Triggers (Fw)\n\nFlow emerges when distraction disappears and challenge slightly exceeds current capability—merging action and awareness into peak creative output.`
-        },
-        {
-          id: 'el-12',
-          number: 12,
-          symbol: 'Eq',
-          name: 'Emotional Equanimity',
-          category: 'neuro',
-          row: 3,
-          col: 14,
-          duration: '35 Min Module',
-          level: 'Core',
-          summary: 'Interoceptive awareness and cognitive labeling to transform emotional reactivity into data.',
-          objectives: [
-            'Practice affect labeling to quiet amygdala activation',
-            'Expand the stimulus-to-response pause during high friction',
-            'Cultivate grounded presence in turbulent environments'
-          ],
-          content: `### Module 12: Emotional Equanimity (Eq)\n\nEquanimity is not suppression; it is full awareness of internal states without being hijacked by them.`
-        },
-        {
-          id: 'el-13',
-          number: 13,
-          symbol: 'Cr',
-          name: 'Crisis Clarity',
-          category: 'resilience',
-          row: 3,
-          col: 15,
-          duration: '50 Min Module',
-          level: 'Mastery',
-          summary: 'OODA loop acceleration, triage protocols, and decisive communication when stakes peak.',
-          objectives: [
-            'Execute rapid Observe-Orient-Decide-Act cycles',
-            'Prioritize vital variables under incomplete information',
-            'Anchor team composure through calm, concise directives'
-          ],
-          content: `### Module 13: Crisis Clarity (Cr)\n\nIn high-consequence moments, clarity is contagious. Slowing your cadence, widening your visual field, and isolating the single next right action stabilizes the entire room.`
-        },
-        {
-          id: 'el-14',
-          number: 14,
-          symbol: 'Cl',
-          name: 'Cultural Architecture',
-          category: 'leadership',
-          row: 3,
-          col: 16,
-          duration: '60 Min Module',
-          level: 'Mastery',
-          summary: 'Build high-trust, high-accountability teams united by shared standards and psychological safety.',
-          objectives: [
-            'Balance fierce candor with genuine personal care',
-            'Codify non-negotiable operating principles',
-            'Turn retrospectives into blameless learning engines'
-          ],
-          content: `### Module 14: Cultural Architecture (Cl)\n\nHigh-performing cultures thrive where standards are crystal clear and experimentation is rewarded over defensiveness.`
-        },
-        {
-          id: 'el-15',
-          number: 15,
-          symbol: 'Nr',
-          name: 'Neuroplasticity Drills',
-          category: 'neuro',
-          row: 3,
-          col: 17,
-          duration: '40 Min Module',
-          level: 'Intermediate',
-          summary: 'Harnessing productive frustration, acetylcholine focus, and NSDR to rewire adult neural circuits.',
-          objectives: [
-            'Embrace error-driven learning signals as synaptic catalysts',
-            'Pair intense skill bouts with 20-minute Non-Sleep Deep Rest',
-            'Accelerate motor and cognitive skill acquisition'
-          ],
-          content: `### Module 15: Neuroplasticity Drills (Nr)\n\nAdult brain rewiring requires two distinct phases: high-alert focused effort (acetylcholine + epinephrine) followed by deep neural rest where synaptic strengthening actually solidifies.`
-        },
-        {
-          id: 'el-16',
-          number: 16,
-          symbol: 'Sn',
-          name: 'Strategic Narrative',
-          category: 'leadership',
-          row: 3,
-          col: 18,
-          duration: '45 Min Module',
-          level: 'Core',
-          summary: 'Synthesize complex vision into compelling, actionable stories that align people and purpose.',
-          objectives: [
-            'Frame transformation around shared meaning and concrete stakes',
-            'Eliminate jargon in favor of vivid mental imagery',
-            'Connect daily execution to long-horizon mission'
-          ],
-          content: `### Module 16: Strategic Narrative (Sn)\n\nPeople do not rally around spreadsheets—they rally around coherent stories that clarify where we are, why change matters, and what victory looks like.`
-        }
-      ],
-
-      completedElements: ['el-1', 'el-2']
-    };
-
     // Application Runtime State
     let appState = loadState();
     let currentRoute = getRouteFromHash();
@@ -868,15 +881,15 @@
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return structuredClone(DEFAULT_SITE_DATA);
+        if (!raw) return structuredClone(DEFAULT_DATA);
         const parsed = JSON.parse(raw);
         return {
-          ...structuredClone(DEFAULT_SITE_DATA),
+          ...structuredClone(DEFAULT_DATA),
           ...parsed
         };
       } catch (err) {
         console.warn('Failed to parse saved state, falling back to defaults.', err);
-        return structuredClone(DEFAULT_SITE_DATA);
+        return structuredClone(DEFAULT_DATA);
       }
     }
 
@@ -2227,10 +2240,27 @@
         <div class="p-6 sm:p-8 space-y-6 max-h-[88vh] overflow-y-auto">
           <div class="flex items-center justify-between border-b border-white/10 pb-4">
             <div>
-              <h2 class="font-display font-bold text-xl text-white">Studio Data & Backup Manager</h2>
-              <p class="text-xs text-slate-400 mt-0.5">Export your customized articles, recipes, and periodic table elements as JSON.</p>
+              <h2 class="font-display font-bold text-xl text-white">Studio Data & Publish Manager</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Download a ready-to-upload index.html with all your edits baked in, or export/import raw JSON backups.</p>
             </div>
             <button onclick="closeModal()" class="p-2 text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+          </div>
+
+          <!-- Primary 1-Click Publishable HTML Export Card -->
+          <div class="p-5 rounded-2xl bg-gradient-to-r from-bio-emerald/20 via-obsidian-900 to-bio-cyan/10 border border-bio-emerald/45 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 text-bio-emerald font-display font-bold text-base">
+                <i data-lucide="file-code" class="w-5 h-5"></i>
+                <span>Publish-Ready Site Export</span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed max-w-lg">
+                Generates a clean, self-contained <code class="text-bio-emerald font-mono">index.html</code> with your current articles, recipes, and periodic table modules baked directly into the code—ready to drag into GitHub.
+              </p>
+            </div>
+            <button onclick="downloadUpdatedHtmlFile()" class="px-5 py-3 rounded-xl bg-bio-emerald hover:bg-emerald-400 text-obsidian-950 font-display font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition shrink-0">
+              <i data-lucide="download" class="w-4 h-4"></i>
+              <span>Download Updated index.html</span>
+            </button>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -2239,7 +2269,7 @@
                 <i data-lucide="download" class="w-4 h-4"></i>
                 <span>Download JSON</span>
               </div>
-              <p class="text-xs text-slate-300">Save a backup file to your computer.</p>
+              <p class="text-xs text-slate-300">Save a raw JSON backup file.</p>
             </button>
 
             <label class="cursor-pointer p-4 rounded-2xl bg-bio-cyan/15 hover:bg-bio-cyan/25 border border-bio-cyan/40 text-left space-y-1 transition">
@@ -2256,7 +2286,7 @@
                 <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                 <span>Reset Defaults</span>
               </div>
-              <p class="text-xs text-slate-300">Restore original starter content.</p>
+              <p class="text-xs text-slate-300">Restore embedded site content.</p>
             </button>
           </div>
 
@@ -2265,10 +2295,87 @@
               <span class="font-mono text-xs text-slate-400">Live Site State JSON Preview</span>
               <button onclick="copyJsonToClipboard()" class="text-xs font-mono text-champagne-400 hover:underline">Copy JSON</button>
             </div>
-            <textarea id="json-export-box" readonly rows="8" class="w-full p-3.5 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-slate-300">${escapeHtml(jsonString)}</textarea>
+            <textarea id="json-export-box" readonly rows="7" class="w-full p-3.5 rounded-xl bg-obsidian-950 border border-white/10 font-mono text-xs text-slate-300">${escapeHtml(jsonString)}</textarea>
           </div>
         </div>
       `, 'max-w-3xl');
+    }
+
+    /**
+     * Generates a clean, ready-to-upload index.html file by cloning the current document,
+     * stripping transient UI/studio states, and baking the live appState JSON into
+     * <script id="evolve-default-data" type="application/json">.
+     */
+    function downloadUpdatedHtmlFile() {
+      try {
+        // Clone the live DOM so the user's current session remains undisturbed
+        const docClone = document.documentElement.cloneNode(true);
+
+        // 1. Clean body classes (remove studio-active outline mode)
+        const bodyClone = docClone.querySelector('body');
+        if (bodyClone) {
+          bodyClone.classList.remove('studio-active');
+        }
+
+        // 2. Reset Studio toggle button & banner to clean default state
+        const studioBtn = docClone.querySelector('#studio-toggle-btn');
+        if (studioBtn) {
+          studioBtn.classList.remove('border-champagne-400', 'text-champagne-300', 'bg-champagne-400/10');
+        }
+        const studioDot = docClone.querySelector('#studio-indicator-dot');
+        if (studioDot) {
+          studioDot.classList.remove('bg-bio-emerald', 'animate-ping');
+          studioDot.classList.add('bg-slate-500');
+        }
+        const studioBanner = docClone.querySelector('#studio-banner');
+        if (studioBanner) {
+          studioBanner.classList.add('hidden');
+        }
+
+        // 3. Hide mobile menu, modals, and clear transient containers so there is zero duplicate DOM
+        const mobileMenu = docClone.querySelector('#mobile-nav-menu');
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+
+        const modalBackdrop = docClone.querySelector('#modal-backdrop');
+        if (modalBackdrop) modalBackdrop.classList.add('hidden');
+
+        const modalContainer = docClone.querySelector('#modal-container');
+        if (modalContainer) modalContainer.innerHTML = '';
+
+        const toastContainer = docClone.querySelector('#toast-container');
+        if (toastContainer) toastContainer.innerHTML = '';
+
+        const appViewport = docClone.querySelector('#app-viewport');
+        if (appViewport) {
+          appViewport.innerHTML = '\n    <!-- Dynamic Page Content Injected Here -->\n  ';
+        }
+        // 4. Bake the current live appState into #evolve-default-data with safe script-tag escaping
+        const dataScript = docClone.querySelector('#evolve-default-data');
+        if (!dataScript) {
+          throw new Error('Could not locate #evolve-default-data script block.');
+        }
+        const closeScriptPattern = new RegExp('</' + 'script>', 'gi');
+        const safeJson = JSON.stringify(appState, null, 2).replace(closeScriptPattern, '<\\/' + 'script>');
+        dataScript.textContent = '\n' + safeJson + '\n  ';
+
+        // 5. Serialize complete HTML document with DOCTYPE and trigger download
+        const finalHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
+        const blob = new Blob([finalHtml], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'index.html';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+        showToast('Downloaded updated index.html — ready to upload to GitHub!', 'success');
+      } catch (err) {
+        console.error('Failed to generate updated index.html:', err);
+        showToast('Error generating updated index.html file.', 'error');
+      }
     }
 
     function downloadJsonBackup() {
@@ -2297,7 +2404,7 @@
       reader.onload = (e) => {
         try {
           const parsed = JSON.parse(e.target.result);
-          appState = { ...structuredClone(DEFAULT_SITE_DATA), ...parsed };
+          appState = { ...structuredClone(DEFAULT_DATA), ...parsed };
           saveState();
           closeModal();
           renderCurrentPage();
@@ -2310,11 +2417,11 @@
     }
 
     function resetToFactoryDefaults() {
-      appState = structuredClone(DEFAULT_SITE_DATA);
+      appState = structuredClone(DEFAULT_DATA);
       localStorage.removeItem(STORAGE_KEY);
       closeModal();
       renderCurrentPage();
-      showToast('Restored default Evolve Optimal content', 'info');
+      showToast('Restored embedded Evolve Optimal content', 'info');
     }
 
     // ==================== UTILITIES ====================
